@@ -58,7 +58,8 @@ export default {
   			sm: 'calc(var(--radius) - 4px)'
   		},
 			fontFamily: {
-				sans: ['var(--font-quicksand)', 'var(--font-oswald)'],
+				quicksand: ['var(--font-quicksand)'],
+        oswald: ['var(--font-oswald)'],
 			}
   	}
   },
