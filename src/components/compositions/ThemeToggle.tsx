@@ -23,6 +23,7 @@ export default function ThemeToggle() {
       <Switch
         checked={resolvedTheme === "dark"}
         onCheckedChange={toggleTheme}
+        className="shadow-md"
       />
       <span className="sr-only">toggle</span>
     </div>
