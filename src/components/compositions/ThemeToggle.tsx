@@ -6,7 +6,7 @@ import { Switch } from "../ui/switch";
 
 export default function ThemeToggle() {
   const [mounted, setMounted] = useState(false)
-  const { resolvedTheme, setTheme } = useTheme()
+  const { theme, setTheme } = useTheme()
 
   useEffect(() => {
     setMounted(true)
@@ -15,13 +15,13 @@ export default function ThemeToggle() {
   if (!mounted) return null
 
   const toggleTheme = () => {
-    setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')
+    setTheme(theme === 'dark' ? 'light' : 'dark')
   }
   
   return (
     <div className="">
       <Switch
-        checked={resolvedTheme === "dark"}
+        checked={mounted && theme === "dark"}
         onCheckedChange={toggleTheme}
         className="shadow-md"
       />
