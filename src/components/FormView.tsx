@@ -13,12 +13,15 @@ export default function FormView() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!file) {
+      return
+    }
   }
 
   return(
-    <div className="border-4 w-full md:w-[505px] h-[300px] py-4 px-2">
+    <div className="border-4 w-full md:w-[505px] h-[350px] py-4 px-2">
       <div className="w-full">
         <div className="w-full flex flex-row justify-between gap-2">
           <Button 
@@ -36,35 +39,39 @@ export default function FormView() {
         </div>
         <div className="mt-5">
           <form onSubmit={handleSubmit}>
-            <div className="">
-              <label htmlFor="cv-upload">Upload your CV/Resume</label>
-              <br />
-              <input
-                className="pt-1"
-                id="cv-upload"
-                type="file"
-                accept=".pdf,.docx"
-                onChange={handleFileChange}
-                required
-              />
-              <p className="text-sm text-muted-foreground pt-1">
-                Accepted formats: PDF, DOCX
-              </p>
-            </div>
-
-            {activeTab === "optimize" && (
+            <div className="flex flex-col gap-3 md:px-3">
               <div className="">
-                <label htmlFor="job-desc">Job Description</label>
-                <textarea 
-                  name="" 
-                  id="job-desc"
-                  value={jobDesc}
-                  onChange={(e) => setJobDesc(e.target.value)}
+                <label htmlFor="cv-upload">Upload your CV/Resume</label>
+                <br />
+                <input
+                  className="pt-1"
+                  id="cv-upload"
+                  type="file"
+                  accept=".pdf,.docx"
+                  onChange={handleFileChange}
                   required
                 />
+                <p className="text-sm text-muted-foreground pt-1">
+                  Accepted formats: PDF, DOCX
+                </p>
               </div>
-            )}
-            <Button type="submit">{activeTab === "roast" ? "Roast" : "Optimize"}</Button>
+
+              {activeTab === "optimize" && (
+                <div className="">
+                  <label htmlFor="job-desc">Job Description</label>
+                  <br />
+                  <textarea 
+                    name="" 
+                    id="job-desc"
+                    className="resize-none w-[240px] md:w-[400px] h-[80px]"
+                    value={jobDesc}
+                    onChange={(e) => setJobDesc(e.target.value)}
+                    required
+                  />
+                </div>
+              )}
+              <Button type="submit" className="w-[100px]">{activeTab === "roast" ? "Roast" : "Optimize"}</Button>
+            </div>
           </form>
         </div>
       </div>
