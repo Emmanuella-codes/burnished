@@ -86,3 +86,18 @@ export const POST = <T>(baseApiReq: Partial<BASE_API_REQ>) => REQ_METHOD<T>("POS
 export const PUT = <T>(baseApiReq: Partial<BASE_API_REQ>) => REQ_METHOD<T>("PUT", baseApiReq);
 export const DELETE = <T>(baseApiReq: Partial<BASE_API_REQ>) => REQ_METHOD<T>("DELETE", baseApiReq);
 export const GET = <T>(baseApiReq: Partial<BASE_API_REQ>) => REQ_METHOD<T>("GET", baseApiReq);
+
+export const handleApiResponse = <T>(
+  response: ResponseType<T>,
+  onSuccess?: (data: T) => void,
+  onError?: (message: string) => void 
+) => {
+  if (response.statusCode >= 200 && response.statusCode < 300) {
+    if (onSuccess) onSuccess(response.payload);
+    return true;
+  } else {
+    const errorMessage = response.message || response.errors || 'An unknown error occurred';
+    if (onError) onError(errorMessage);
+    return false;
+  }
+}
