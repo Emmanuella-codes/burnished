@@ -1,5 +1,6 @@
 "use client"
 import FormView from "./FormView";
+import ResultView from "./ResultView";
 // import { Button } from "./ui/button";
 // import { useRouter } from "next/navigation"
 
@@ -14,7 +15,10 @@ export default function Hero() {
       <div className="flex justify-center flex-col md:flex-row gap-3">
         {/* <Button onClick={() => router.push("/get-roasted")}>Roast My CV</Button>
         <Button onClick={() => router.push("/cv-optimizer")}>Optimize My CV</Button> */}
-        <FormView />
+        <div className="">
+          <FormView />
+        </div>
+        <ResultView />
       </div>
     </div>
   )

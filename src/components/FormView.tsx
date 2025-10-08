@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Button } from "./ui/button";
-import { Mode } from "@/server/session.server";
+import { Mode, uploadCV } from "@/server/session.server";
 import { useToast } from "@/hooks/use-toast";
 import { handleApiResponse, POST } from "@/server/base.api";
+import { cvActions } from "@/store/resultStore";
 import { UploadResponse } from "@/typings/document";
 
 export default function FormView() {
@@ -33,34 +34,38 @@ export default function FormView() {
     formData.append("cv", file);
     formData.append("mode", activeTab);
 
-    if (activeTab === "optimize" && jobDesc) {
+    if (activeTab === "format" && jobDesc) {
       formData.append("jobDescription", jobDesc)
     }
     setIsLoading(true);
 
-    const response = await POST<UploadResponse>({
-      ext: "upload",
-      body: formData,
-    });
-
     try {
-      handleApiResponse<UploadResponse>(
-        response,
-        (data) => {
+      const data = await uploadCV(file, activeTab, jobDesc);
+      handleApiResponse(
+        data,
+        (payload) => {
+          cvActions.setResults({
+            mode: activeTab,
+            content: activeTab === "format"
+              ? payload.formattedFile || ""
+              : activeTab === "letter"
+              ? payload.coverLetterFile || ""
+              : payload.feedback || "",
+            fileType: activeTab === "roast"
+              ? "text"
+              : "file",
+          })
           toast({
             title: "Success",
-            description: "Your action was successfull."
-          });
-          console.log("results: ", data)
-        },
-        (errorMessage) => {
-          toast({
-            title: "Error",
-            description: errorMessage,
-            variant: "destructive",
+            description:
+              activeTab === "roast"
+              ? "Your CV roast is ready!"
+              : activeTab === "format"
+              ? "Your optimized CV is ready!"
+              : "Your cover letter is ready!",
           });
         }
-      );
+      )
       
     } catch (error) {
       toast({
@@ -85,12 +90,19 @@ export default function FormView() {
             Roast
           </Button>
           <Button 
-            className={`${activeTab === "optimize" ? 'font-bold' : ''} w-1/2`}
-            onClick={() => setActiveTab('optimize')}
+            className={`${activeTab === "format" ? 'font-bold' : ''} w-1/2`}
+            onClick={() => setActiveTab('format')}
           >
             Optimize
           </Button>
+          <Button 
+            className={`${activeTab === "letter" ? 'font-bold' : ''} w-1/2`}
+            onClick={() => setActiveTab('letter')}
+          >
+            Cover Letter
+          </Button>
         </div>
+        {/* form */}
         <div className="mt-5">
           <form onSubmit={handleSubmit}>
             <div className="flex flex-col gap-3 md:px-3">
@@ -110,7 +122,8 @@ export default function FormView() {
                 </p>
               </div>
 
-              {activeTab === "optimize" && (
+              {/* job desc required for format & cover letter */}
+              {(activeTab === "format" || activeTab === "letter") && (
                 <div className="">
                   <label htmlFor="job-desc">Job Description</label>
                   <br />
@@ -129,7 +142,14 @@ export default function FormView() {
                 className="w-[120px]"
                 disabled={isLoading}
               >
-                {isLoading ? "Processing..." : activeTab === "roast" ? "Roast" : "Optimize"}
+                {isLoading ? 
+                  "Processing..." 
+                  : activeTab === "roast" 
+                  ? "Roast CV" 
+                  : activeTab === "format"
+                  ? "Optimize CV"
+                  : "Generate Letter"
+                }
               </Button>
             </div>
           </form>

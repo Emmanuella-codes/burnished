@@ -70,3 +70,71 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  width: 0px;
+}
+.no-scrollbar::-webkit-scrollbar-thumb {
+  display: none;
+}
+
+.temp-section-title {
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+  padding-bottom: 3px;
+  border-bottom: 2px solid #333;
+}
+
+/* @media print {
+  .page {
+    page-break-after: always;
+    margin: 0;
+    box-shadow: none;
+    width: 100%;
+  }
+  .page:last-child {
+    page-break-after: auto;
+  }
+}
+
+@media screen {
+  .page {
+    width: 100%;
+    max-width: 8.5in;
+    min-height: 11in;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+    background: white;
+  }
+  .page:not(:last-child) {
+    margin-bottom: 1rem;
+  }
+  @media (max-width: 1024px) {
+    .page {
+      max-width: 95%;
+      padding: 1rem;
+      min-height: auto;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .page {
+      max-width: 100%;
+      padding: 1rem;
+    }
+  }
+} */

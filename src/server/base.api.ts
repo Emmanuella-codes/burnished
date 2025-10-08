@@ -93,7 +93,7 @@ export const handleApiResponse = <T>(
   onError?: (message: string) => void 
 ) => {
   if (response.statusCode >= 200 && response.statusCode < 300) {
-    if (onSuccess) onSuccess(response.payload);
+    if (onSuccess) onSuccess(response.payload as T);
     return true;
   } else {
     const errorMessage = response.message || response.errors || 'An unknown error occurred';

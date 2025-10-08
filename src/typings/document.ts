@@ -25,8 +25,11 @@ export type Document = {
   createdAt: Date;
 }
 
-export type UploadResponse = {
-  success: boolean;
+export interface UploadResponse  {
+  status: ProcessingStatus;
   documentID: string;
-  message: string;
+  formattedFile?: string;
+  coverLetterFile?: string;
+  feedback?: string;        // plain text
+  error?: string;
 }
