@@ -19,7 +19,7 @@ export default function TemplateHeader({
     { icon: "/assets/location.svg", alt: "location", value: location },
     { icon: "/assets/mail.svg", alt: "email", value: email },
     { icon: "/assets/call.svg", alt: "phone", value: phone },
-    { icon: "/assets/linkedin.svg", alt: "linkedin", value: linkedin, url: linkedinUrl },
+    { icon: "/assets/linkedin2.svg", alt: "linkedin", value: linkedin, url: linkedinUrl },
     { icon: "/assets/github.svg", alt: "github", value: github, url: githubUrl },
     { icon: "/assets/website.svg", alt: "website", value: website, url: websiteUrl },
   ];

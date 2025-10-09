@@ -94,47 +94,49 @@ body {
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 1px;
-  margin-bottom: 8px;
+  margin-bottom: 5px;
   padding-bottom: 3px;
   border-bottom: 2px solid #333;
 }
 
-/* @media print {
+.page-content {
+  break-inside: auto;
+  page-break-inside: auto;
+  overflow: visible;
+}
+
+/* PRINT STYLES */
+@media print {
   .page {
     page-break-after: always;
-    margin: 0;
-    box-shadow: none;
-    width: 100%;
+    height: 11in;
+    width: 8.5in;
   }
-  .page:last-child {
-    page-break-after: auto;
+
+  .break-inside-avoid {
+    page-break-inside: avoid;
+    break-inside: avoid;
   }
 }
 
+/* SCREEN (PREVIEW) STYLES */
 @media screen {
   .page {
+    /* Instead of fixed A4 dimensions, use responsive scaling */
     width: 100%;
-    max-width: 8.5in;
-    min-height: 11in;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    max-width: 816px; /* cap it to A4 width */
+    min-height: auto;
+    max-height: none;
     margin: 0 auto;
-    background: white;
-  }
-  .page:not(:last-child) {
-    margin-bottom: 1rem;
-  }
-  @media (max-width: 1024px) {
-    .page {
-      max-width: 95%;
-      padding: 1rem;
-      min-height: auto;
-    }
+    overflow: visible;
+    transform: scale(1);
+    transform-origin: top center;
   }
 
-  @media (max-width: 768px) {
-    .page {
-      max-width: 100%;
-      padding: 1rem;
-    }
+  /* Optional: Add subtle shadow for preview pages */
+  .page {
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+    background: white;
   }
-} */
+}

@@ -4,9 +4,9 @@ export default function Home() {
   return (
     <div className="">
       <div className="mt-24"></div>
-      <main>
+      <section>
         <Hero />
-      </main>
+      </section>
     </div>
   );
 }

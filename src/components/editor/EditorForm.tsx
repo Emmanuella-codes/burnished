@@ -38,23 +38,14 @@ export default function EditorForm() {
     key === "personal" || key === "profileSummary";
 
   const sectionComponents: Record<string, JSX.Element> = {
-    personal: (
-      <Section title="👤 Personal Information">
-        <PersonalInfo header={snap.header} />
-      </Section>
-    ),
-    profileSummary: (
-      <Section title="📝 Profile">
-        <ProfileSummary profileSummary={snap.profileSummary ?? ""} />
-      </Section>
-    ),
+    personal: <PersonalInfo header={snap.header} />,
+    profileSummary:  <ProfileSummary profileSummary={snap.profileSummary ?? ""} />,
     skills: (
-      <Section title="⚡ Skills">
+      <>
         {snap.skills.map((s, idx) => (
           <Skills
             key={`es-${idx}`}
-            skill={{ title: s.title, values: [...s.values] }}
-            onChange={(updated) => (resumeStore.skills[idx] = updated)}
+            index={idx}
           />
         ))}
         <SectionButtons
@@ -67,10 +58,10 @@ export default function EditorForm() {
           remove={() => resumeStore.skills.pop()}
           showRemove={snap.skills.length > 1}
         />
-      </Section>
+      </>
     ),
     experiences: (
-      <Section title="💼 Professional Experiences">
+      <>
         {snap.experiences.map((exp, idx) => (
           <Experiences
             key={`ee-${idx}`}
@@ -94,10 +85,10 @@ export default function EditorForm() {
           }
           remove={() => resumeStore.experiences.pop()}
         />
-      </Section>
+      </>
     ),
     education: (
-      <Section title="🎓 Education">
+      <>
         {snap.education.map((edn, idx) => (
           <Education
             key={`eed-${idx}`}
@@ -121,10 +112,10 @@ export default function EditorForm() {
           }
           remove={() => resumeStore.education.pop()}
         />
-      </Section>
+      </>
     ),
     projects: (
-      <Section title="💻 Projects">
+      <>
         {snap.projects.map((proj, idx) => (
           <Projects
             key={`ep-${idx}`}
@@ -146,10 +137,10 @@ export default function EditorForm() {
           }
           remove={() => resumeStore.projects.pop()}
         />
-      </Section>
+      </>
     ),
     awards: (
-      <Section title="🏆 Awards (optional)">
+      <>
         {snap.awards?.map((award, idx) => (
           <Awards
             key={`ea-${idx}`}
@@ -172,7 +163,7 @@ export default function EditorForm() {
           }
           remove={() => resumeStore.awards?.pop()}
         />
-      </Section>
+      </>
     ),
   };
 
@@ -182,10 +173,20 @@ export default function EditorForm() {
         const locked = isLocked(key);
         const section = sectionComponents[key];
 
+        const titles: Record<string, string> = {
+          personal: "👤 Personal Information",
+          profileSummary: "📝 Profile (optional)",
+          skills: "⚡ Skills",
+          experiences: "💼 Professional Experiences",
+          education: "🎓 Education",
+          projects: "💻 Projects",
+          awards: "🏆 Awards (optional)",
+        };
+
         return (
           <Section
             key={key}
-            title={section.props.title}
+            title={titles[key]}
             draggable={!locked}
             onDragStart={() => !locked && setDragging(key)}
             onDragEnd={() => setDragging(null)}
@@ -197,7 +198,7 @@ export default function EditorForm() {
             isDragging={dragging === key}
             isHovered={hovered === key && dragging !== key}
           >
-            {section.props.children}
+            {section}
           </Section>
         );
       })}

@@ -1,5 +1,5 @@
 "use client";
-import { Maximize2, Minimize2 } from "lucide-react";
+import { GripVertical, Maximize2, Minimize2 } from "lucide-react";
 import { useState } from "react";
 
 type SectionProps = {
@@ -25,8 +25,7 @@ export function Section({
   isDragging,
   isHovered,
 }: SectionProps) {
-  const [isExpanded, setIsExpanded] = useState(true);
-
+  const [isExpanded, setIsExpanded] = useState(false);
   const toggleExpand = () => setIsExpanded((prev) => !prev);
   
   return (
@@ -45,7 +44,15 @@ export function Section({
         onDragOver={onDragOver}
         onDrop={onDrop}
       >
-        <h2 className="lg:text-xl font-bold">{title}</h2>
+        <div className="flex flex-row items-center gap-2">
+          {draggable && (
+            <GripVertical
+              size={16}
+              className="text-gray-500 cursor-grab active:cursor-grabbing"
+            />
+          )}
+          <h2 className="lg:text-xl font-bold">{title}</h2>
+        </div>
         <button
           type="button"
           onClick={(e) => {
@@ -76,7 +83,7 @@ export function SectionButtons({
   showRemove?: boolean;
 }) {
   return (
-    <div className="flex flex-row gap-x-3 justify-end">
+    <div className="flex flex-row mt-3 gap-x-3 justify-end">
       <CtaButton text="Add" onClick={add} className="" />
       {showRemove && <CtaButton text="Remove" onClick={remove} className="" />}
     </div>
