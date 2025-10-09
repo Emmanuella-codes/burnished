@@ -21,7 +21,7 @@ export default function TemplateProject({ projects }: TemplateProjectProps) {
               </a>
               {proj.subTitle && <h4 className="text-sm">{proj.subTitle}</h4>}
             </div>
-            <div className="">
+            <div className="pl-4">
               <ul className="list-disc">
                 {proj.desc.map((item, idx) => (
                   <li key={`projdesc-${idx}`} className="text-sm">{item}</li>

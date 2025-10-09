@@ -17,17 +17,17 @@ export default function TemplateEducation({ education }: EducationTemplateProps)
       <div className="">
         {education.map((item, idx) => (
           <div key={`edcn-${idx}`} className="">
-            <div className="flex flex-col">
+            <div className="flex flex-row justify-between">
             <div className="">
               <h3 className="text-sm font-semibold">{item.degree}</h3>
               <h4 className="text-sm">{item.insitution}</h4>
             </div>
-            <div className="">
+            <div className=" flex flex-row gap-x-2">
               <span className="text-sm">{`${item.startDate} - ${item.endDate}`}</span>
               {item.location && <span className="text-sm">{item.location}</span>}
             </div>
           </div>
-            <div className="">
+            <div className="pl-4">
               <ul className="list-disc">
                 {item.desc?.map((item, idx) => (
                   <li key={`edcndesc-${idx}`} className="text-sm">{item}</li>

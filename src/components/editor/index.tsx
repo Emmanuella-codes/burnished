@@ -3,18 +3,21 @@ import { useSnapshot } from "valtio";
 import { resumeStore } from "@/store/resumeStore";
 import EditorForm from "./EditorForm";
 import Template from "../templates";
+import { initMockResume } from "@/lib/initResume";
+
+initMockResume();
 
 export default function ResumeEditor() {
   const snap = useSnapshot(resumeStore);
 
   return (
-    <div className="mt-24 mb-10 w-full flex justify-center">
-      <div className="flex flex-row gap-x-8 w-[98%] max-w-[1400px] h-[calc(100vh-10rem)]">
-        <div className="w-1/2 h-[100vh] shrink-0 pr-4 overflow-y-auto no-scrollbar">
+    <div className="mt-24 w-full flex justify-center">
+      <div className="flex flex-row gap-x-8 w-[96%] h-[calc(100vh-10rem)]">
+        <div className="w-1/2 h-[80vh] shrink-0 pr-4 overflow-y-auto no-scrollbar">
           <EditorForm />
         </div>
         {/* preview */}
-        <div className="hidden lg:block lg:w-1/2">
+        <div className="hidden lg:block lg:w-1/2 h-full overflow-y-auto no-scrollbar">
           <h2 className="lg:text-xl font-bold">Resume Preview</h2>
           <section className="">
             <Template 

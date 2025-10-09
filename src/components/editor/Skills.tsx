@@ -1,10 +1,15 @@
+"use client";
+import { resumeStore } from "@/store/resumeStore";
+import { useSnapshot } from "valtio";
 
 type SkillProps = {
-  skill: { title: string; values: string[] };
-  onChange: (skill: { title: string; values: string[] }) => void;
+  index: number;
 };
 
-export default function Skills({ skill, onChange }: SkillProps) {
+export default function Skills({ index }: SkillProps) {
+  const snap = useSnapshot(resumeStore);
+  const skill = snap.skills[index];
+  
   return (
     <section className="border border-slate-400 px-6 py-8 rounded-sm">
       <div className="">
@@ -16,7 +21,9 @@ export default function Skills({ skill, onChange }: SkillProps) {
                 type="text" 
                 className="w-full rounded-md px-2 py-1"
                 value={skill.title}
-                onChange={(e) => onChange({...skill, title: e.target.value})}
+                onChange={(e) => {
+                  resumeStore.skills[index].title = e.target.value;
+                }}
               />
             </div>
             <div className="flex flex-col">
@@ -24,12 +31,10 @@ export default function Skills({ skill, onChange }: SkillProps) {
               <textarea
                className="rounded-md"
                value={skill.values.join(", ")}
-               onChange={(e) => 
-                onChange({
-                  ...skill,
-                  values: e.target.value.split(",").map((v) => v.trim())
-                })
-               }
+               onChange={(e) => {
+                const text = e.target.value;
+                resumeStore.skills[index].values = text.split(",").map(v => v.trim());
+               }}
               />
             </div>
           </div>
