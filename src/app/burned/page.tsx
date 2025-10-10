@@ -1,9 +1,10 @@
+import BurnedCmp from "@/components/burned";
 
-export default function Roast() {
+export default function Burned() {
   return (
     <div className="">
       <div className="mt-24"></div>
-      <p className="">Time to get Burned!!</p>
+      <BurnedCmp />
     </div>
   )
 }
