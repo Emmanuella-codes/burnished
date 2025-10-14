@@ -8,8 +8,7 @@ export interface BurnedState {
   isLoading: boolean;
   result: {
     mode: Mode;
-    content: string;
-    fileType: "text" | "file";
+    content: string | Record<string, any>;
   } | null;
 };
 

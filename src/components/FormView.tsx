@@ -6,20 +6,23 @@ import { useToast } from "@/hooks/use-toast";
 import { handleApiResponse, POST } from "@/server/base.api";
 import { useSnapshot } from "valtio";
 import { burnedActions, burnedStore } from "@/store/burnedStore";
+import { resumeStore } from "@/store/resumeStore";
+import { useRouter } from "next/navigation";
 
 export default function FormView() {
+  const router = useRouter()
   const snap = useSnapshot(burnedStore);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const { toast } = useToast();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      burnedActions.setFile(e.target.files[0]);
-    }
+    const file = e.target.files?.[0] || null;
+    setSelectedFile(file);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!snap.file) {
+    if (!selectedFile) {
       toast({
         title: "Error",
         description: "Please upload a CV file",
@@ -30,17 +33,28 @@ export default function FormView() {
     burnedActions.setLoading(true);
 
     try {
-      const data = await uploadCV(snap.file, snap.activeTab, snap.jobDesc);
+      const data = await uploadCV(selectedFile, snap.activeTab, snap.jobDesc);
       handleApiResponse(data, (payload) => {
+        let content: any; 
+
+        if (snap.activeTab === "format") {
+          content = payload?.formattedResume;
+          Object.assign(resumeStore, content);
+          router.push("/editor");
+        } else if (snap.activeTab === "letter") {
+          content = payload?.coverLetter;
+        } else {
+          content = payload?.feedback;
+        }
+
         burnedActions.setResult({
           mode: snap.activeTab,
-          content:
-            snap.activeTab === "format"
-              ? payload.formattedFile || ""
-              : snap.activeTab === "letter"
-              ? payload.coverLetterFile || ""
-              : payload.feedback || "",
-          fileType: snap.activeTab === "roast" ? "text" : "file",
+          content,
+        });
+        console.log("🔥 API payload:", payload);
+        console.log("📦 Setting burnedStore.result:", {
+          mode: snap.activeTab,
+          content,
         });
         toast({
           title: "Success",
@@ -51,6 +65,7 @@ export default function FormView() {
               ? "Your optimized CV is ready!"
               : "Your cover letter is ready!",
         });
+        
       });
     } catch (error) {
       toast({
@@ -73,17 +88,17 @@ export default function FormView() {
             <form onSubmit={handleSubmit}>
               <div className="flex flex-col gap-y-3 md:px-3">
                 <div className="flex flex-col gap-y-3">
-                  <label className="font-semibold">Upload your CV/Resume</label>
+                  {/* <label className="font-semibold">Upload your CV/Resume</label> */}
                   <div className="border-2 border-dashed border-indigo-300 flex flex-col lg:py-6 rounded-md">
                     <input
-                      className="absolute opacity-0 w-0 h-0"
+                      className="hidden"
                       id="cv-upload"
                       type="file"
                       accept=".pdf,.docx"
                       onChange={handleFileChange}
                       required
                     />
-                    <label>
+                    <label htmlFor="cv-upload" className="cursor-pointer w-full">
                       <div className="flex flex-col w-full items-center">
                         <span className="text-5xl">📄</span>
                         <strong className="text-sm">Click to upload</strong>
@@ -91,6 +106,9 @@ export default function FormView() {
                       </div>
                     </label>
                   </div>
+                  {/* {snap.file && (
+                    <p className="">{snap.file.name}</p>
+                  )} */}
                 </div>
 
                 {/* job desc required for format & cover letter */}

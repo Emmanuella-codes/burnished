@@ -57,7 +57,7 @@ export const resumeStore: Resume = proxy({
     }
   ],
   sectionOrder: [
-    "personal",
+    "header",
     "profileSummary",
     "skills",
     "experiences",

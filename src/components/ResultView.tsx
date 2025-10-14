@@ -5,7 +5,7 @@ import { useSnapshot } from "valtio";
 export default function ResultView() {
   const snap = useSnapshot(burnedStore);
 
-  if (!snap.result) {
+  if (!snap.result?.content) {
     return (
       <div className="border-2 border-dashed border-indigo-300 flex flex-col items-center justify-center p-6">
         <span className="text-5xl">📋</span>
@@ -15,11 +15,16 @@ export default function ResultView() {
     );
   }
 
+  const { content } = snap.result;
+
   return (
     <div className="border-2 border-dashed border-indigo-300 p-4 w-full">
-      {snap.result.fileType === "text" && (
+      <div className="">
+        
+      </div>
+      {typeof content === "string" && (
         <pre className="whitespace-pre-wrap text-sm">
-          {snap.result.content}
+          {content}
         </pre>
       )}
     </div>

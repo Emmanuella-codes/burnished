@@ -3,10 +3,7 @@ import { useSnapshot } from "valtio";
 import { resumeStore } from "@/store/resumeStore";
 import EditorForm from "./EditorForm";
 import Template from "../templates";
-import { initMockResume } from "@/lib/initResume";
 import { Download } from "lucide-react";
-
-initMockResume();
 
 export default function ResumeEditor() {
   const snap = useSnapshot(resumeStore);

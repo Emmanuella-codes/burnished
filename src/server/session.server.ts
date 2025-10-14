@@ -23,15 +23,29 @@ export const uploadCV = async (
   formData.append("file", file);
   formData.append("mode", mode);
 
-  if (mode === "format" && jobDescription) {
+  if ((mode === "format" || mode === "letter") && jobDescription) {
     formData.append("jobDescription", jobDescription);
   }
 
-  const response = await POST<UploadResponse>({
-    baseRoute: ServerConfig.baseUrl,
-    ext: "documents/upload",
+  const token = localStorage.getItem("burned_token");
+  for (const [key, value] of formData.entries()) {
+    console.log("FormData →", key, value);
+  }
+  const res = await fetch(`${ServerConfig.baseUrl}/documents/upload`, {
+    method: "POST",
     body: formData,
+    headers: token ? { Authorization: `Bearer ${token}` } : undefined,
   })
 
-  return response;
+  const raw = await res.json();
+  const data: ResponseType<UploadResponse> = {
+    statusCode: res.status,
+    message: raw.message,
+    payload: raw.data,
+    errors: raw.error,
+    token: null,
+  };
+
+  if (!res.ok) throw new Error(data.message);
+  return data;
 };
