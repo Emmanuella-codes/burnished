@@ -59,7 +59,7 @@ export const mockResume: Resume = {
   education: [
     {
       degree: "B.Sc. Computer Science",
-      insitution: "University of Lagos",
+      institution: "University of Lagos",
       startDate: "2016",
       endDate: "2020",
       location: "Lagos, Nigeria",

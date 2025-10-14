@@ -4,6 +4,16 @@ import { ServerConfig } from "./config";
 
 export type Mode = "roast" | "format" | "letter";
 
+export const login = async (name: string): Promise<ResponseType<{ name: string }>> => {
+  const response = await POST<{ name: string }>({
+    baseRoute: ServerConfig.baseUrl,
+    ext: "auth/token",
+    body: { name },
+  });
+
+  return response;
+};
+
 export const uploadCV = async (
   file: File,
   mode: Mode,

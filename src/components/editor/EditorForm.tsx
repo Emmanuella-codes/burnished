@@ -102,7 +102,7 @@ export default function EditorForm() {
               ...resumeStore.education,
               {
                 degree: "",
-                insitution: "",
+                institution: "",
                 startDate: "",
                 endDate: "",
                 location: "",

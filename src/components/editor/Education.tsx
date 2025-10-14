@@ -2,7 +2,7 @@ import { resumeStore } from "@/store/resumeStore";
 
 type EducationProps = {
   degree: string;
-  insitution: string;
+  institution: string;
   startDate: string;
   endDate: string;
   location?: string;
@@ -60,8 +60,8 @@ export default function Education({ educn, index }: Props) {
               <input 
                 type="text" 
                 className="rounded-md px-2 py-1"
-                value={educn.insitution}
-                onChange={(e) => handleChange("insitution", e.target.value)}
+                value={educn.institution}
+                onChange={(e) => handleChange("institution", e.target.value)}
               />
             </div>
             <div className="flex w-full flex-col lg:flex-row lg:gap-x-3">

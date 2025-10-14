@@ -32,7 +32,7 @@ export const resumeStore: Resume = proxy({
   education: [
     {
       degree: "",
-      insitution: "",
+      institution: "",
       startDate: "",
       endDate: "",
       location: "",
