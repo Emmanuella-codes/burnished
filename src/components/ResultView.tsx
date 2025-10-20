@@ -1,6 +1,7 @@
 "use client";
 import { burnedStore } from "@/store/burnedStore";
 import { useSnapshot } from "valtio";
+import ReactMarkdown from "react-markdown";
 
 export default function ResultView() {
   const snap = useSnapshot(burnedStore);
@@ -16,17 +17,11 @@ export default function ResultView() {
   }
 
   const { content } = snap.result;
+  if (typeof content !== "string") return
 
   return (
     <div className="border-2 border-dashed border-indigo-300 p-4 w-full">
-      <div className="">
-        
-      </div>
-      {typeof content === "string" && (
-        <pre className="whitespace-pre-wrap text-sm">
-          {content}
-        </pre>
-      )}
+      <ReactMarkdown>{content}</ReactMarkdown>
     </div>
   );
 }

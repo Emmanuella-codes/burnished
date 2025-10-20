@@ -13,13 +13,13 @@ export default function BurnedCmp() {
       <div className="lg:w-[60%]">
         <div className="flex flex-col items-center mb-3">
           <h2 className="font-semibold text-xl">🔥 CV/Resume Optimizer</h2>
-          <p className="">Roast, optimize or generate cover letters for your CV/Resume</p>
+          <p className="text-center">Roast, optimize or generate cover letters for your CV/Resume</p>
         </div>
-        <div className="w-full flex flex-row justify-between gap-2">
+        <div className="w-full flex flex-row justify-between gap-2 flex-wrap lg:flex-nowrap">
           {["roast", "format", "letter"].map((tab) => (
             <Button
               key={tab}
-              className={`${snap.activeTab === tab ? "font-bold" : ""} w-1/3`}
+              className={`${snap.activeTab === tab ? "font-bold bg-slate-900" : "bg-slate-600"} w-full lg:w-1/3`}
               onClick={() => burnedActions.setActiveTab(tab as any)}
             >
               {tab === "roast"
@@ -31,11 +31,11 @@ export default function BurnedCmp() {
           ))}
         </div>
       </div>
-      <div className="w-[96%] flex flex-col lg:flex-row gap-5">
+      <div className="w-full lg:w-[96%] mt-5 mb-4 lg:mb-0 flex flex-col lg:flex-row gap-5">
         <div className="w-full lg:w-1/2">
           <FormView />
         </div>
-        <div className="w-full lg:w-1/2 h-[800px] overflow-y-auto ">
+        <div className="w-full lg:w-1/2 lg:h-[800px] overflow-y-auto no-scrollbar">
           <ResultView />
         </div>        
       </div>

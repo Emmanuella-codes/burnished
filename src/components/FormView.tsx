@@ -99,7 +99,7 @@ export default function FormView() {
                       required
                     />
                     <label htmlFor="cv-upload" className="cursor-pointer w-full">
-                      <div className="flex flex-col w-full items-center">
+                      <div className="flex flex-col w-full items-center py-5">
                         <span className="text-5xl">📄</span>
                         <strong className="text-sm">Click to upload</strong>
                         <span className="text-sm">Accepted formats: PDF, DOCX</span>
@@ -124,7 +124,7 @@ export default function FormView() {
                   </div>
                 )}
 
-                <Button type="submit" className="w-[140px]" disabled={snap.isLoading}>
+                <Button type="submit" className="w-[140px] bg-indigo-700" disabled={snap.isLoading}>
                   {snap.isLoading
                     ? "Processing..."
                     : snap.activeTab === "roast"
