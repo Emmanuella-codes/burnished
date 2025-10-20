@@ -2,7 +2,7 @@
 type EducationTemplateProps = {
   education: Array<{
     degree: string;
-    insitution: string;
+    institution: string;
     startDate: string;
     endDate: string
     location?: string;
@@ -20,7 +20,7 @@ export default function TemplateEducation({ education }: EducationTemplateProps)
             <div className="flex flex-row justify-between">
             <div className="">
               <h3 className="text-sm font-semibold">{item.degree}</h3>
-              <h4 className="text-sm">{item.insitution}</h4>
+              <h4 className="text-sm">{item.institution}</h4>
             </div>
             <div className=" flex flex-row gap-x-2">
               <span className="text-sm">{`${item.startDate} - ${item.endDate}`}</span>

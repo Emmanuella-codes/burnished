@@ -9,27 +9,27 @@ export enum ProcessingStatus {
   FAILED = 'failed',
 }
 
-export type Document = {
-  _id: string;
-  user: User
-  userID: string;
-  originalFilename: string;
-  mimeType: string;
-  originalFilePath: string;
-  formattedFilePath: string;
-  coverLetterPath: string;
-  status: ProcessingStatus;
-  jobDescription: string;
-  mode: Mode;
-  feedback: Record<string, any>
-  createdAt: Date;
-}
+// export type Document = {
+//   _id: string;
+//   user: User
+//   userID: string;
+//   originalFilename: string;
+//   mimeType: string;
+//   originalFilePath: string;
+//   formattedFilePath: string;
+//   coverLetterPath: string;
+//   status: ProcessingStatus;
+//   jobDescription: string;
+//   mode: Mode;
+//   feedback: Record<string, any>
+//   createdAt: Date;
+// }
 
 export interface UploadResponse  {
   status: ProcessingStatus;
   documentID: string;
-  formattedFile?: string;
-  coverLetterFile?: string;
-  feedback?: string;        // plain text
+  formattedResume?: Record<string, any>;
+  coverLetter: string;
+  feedback?: string;     
   error?: string;
 }

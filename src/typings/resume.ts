@@ -30,7 +30,7 @@ export type Resume = {
   }>;
   education: Array<{
     degree: string;
-    insitution: string;
+    institution: string;
     startDate: string;
     endDate: string;
     location?: string;

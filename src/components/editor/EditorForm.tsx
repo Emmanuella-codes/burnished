@@ -19,8 +19,8 @@ export default function EditorForm() {
   const handleDrop = (targetSection: string) => {
     if (!dragging || dragging === targetSection) return;
 
-    if (["personal", "profileSummary"].includes(dragging)) return;
-    if (["personal", "profileSummary"].includes(targetSection)) return;
+    if (["header", "profileSummary"].includes(dragging)) return;
+    if (["header", "profileSummary"].includes(targetSection)) return;
 
     const newOrder = [...snap.sectionOrder];
     const fromIndex = newOrder.indexOf(dragging);
@@ -35,10 +35,10 @@ export default function EditorForm() {
   };
 
   const isLocked = (key: string) =>
-    key === "personal" || key === "profileSummary";
+    key === "header" || key === "profileSummary";
 
   const sectionComponents: Record<string, JSX.Element> = {
-    personal: <PersonalInfo header={snap.header} />,
+    header: <PersonalInfo header={snap.header} />,
     profileSummary:  <ProfileSummary profileSummary={snap.profileSummary ?? ""} />,
     skills: (
       <>
@@ -102,7 +102,7 @@ export default function EditorForm() {
               ...resumeStore.education,
               {
                 degree: "",
-                insitution: "",
+                institution: "",
                 startDate: "",
                 endDate: "",
                 location: "",
@@ -174,7 +174,7 @@ export default function EditorForm() {
         const section = sectionComponents[key];
 
         const titles: Record<string, string> = {
-          personal: "👤 Personal Information",
+          header: "👤 Personal Information",
           profileSummary: "📝 Profile (optional)",
           skills: "⚡ Skills",
           experiences: "💼 Professional Experiences",

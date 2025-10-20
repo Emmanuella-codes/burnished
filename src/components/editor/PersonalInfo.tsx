@@ -8,8 +8,12 @@ type Props = {
 }
 
 export default function PersonalInfo({ header }: Props) {
-  const [fields, setFields] = useState<string[]>([]);
   const optionalFields = ["github", "linkedin", "website"];
+  const [fields, setFields] = useState<string[]>(() => 
+    optionalFields.filter(
+      (f) => header[f as keyof Header] && header[f as keyof Header] !== ""
+    )
+  );
 
   const handleChange = (field: keyof Header, value: string) => {
     resumeStore.header = {
@@ -164,5 +168,5 @@ export default function PersonalInfo({ header }: Props) {
         ))}
       </div>
     </section>
-  )
-};
+  );
+}
