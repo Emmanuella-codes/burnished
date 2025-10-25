@@ -23,7 +23,8 @@
     "react-markdown": "^10.1.0",
     "tailwind-merge": "^3.0.1",
     "tailwindcss-animate": "^1.0.7",
-    "valtio": "^2.1.8"
+    "valtio": "^2.1.8",
+    "vaul": "^1.1.2"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
