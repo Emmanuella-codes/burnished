@@ -168,7 +168,7 @@ export default function EditorForm() {
   };
 
   return (
-    <div className="flex flex-col gap-y-9 bg-slate-300/50 lg:px-5 lg:py-6 rounded-sm">
+    <div className="w-full flex flex-col gap-y-4 lg:gap-y-9 px-2 py-4 bg-slate-300/50 lg:px-5 lg:py-6 rounded-sm">
       {snap.sectionOrder.map((key) => {
         const locked = isLocked(key);
         const section = sectionComponents[key];

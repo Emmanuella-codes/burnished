@@ -140,3 +140,37 @@ body {
     background: white;
   }
 }
+
+@media screen and (max-width: 768px) {
+  .page {
+    /* Remove fixed dimensions on mobile */
+    min-height: auto !important;
+    max-height: none !important;
+    height: auto !important;
+    max-width: 100%;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .temp-section-title {
+    font-size: 12px;
+    letter-spacing: 0.5px;
+  }
+
+  /* Scale down text slightly on very small screens */
+  @media screen and (max-width: 480px) {
+    .page {
+      font-size: 14px;
+    }
+    
+    .temp-section-title {
+      font-size: 11px;
+    }
+  }
+}
+
+/* Ensure content stays readable on all screen sizes */
+.page * {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}

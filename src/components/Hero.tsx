@@ -67,7 +67,7 @@ export default function Hero() {
         <DialogTrigger asChild>
           <div className="mx-auto">
             <button 
-              className="bg-[#CF1259] lg:px-6 py-2 text-white rounded-xl"
+              className="bg-[#CF1259] lg:px-6 py-2 px-3 text-white rounded-xl"
             >
               Get Started
             </button>

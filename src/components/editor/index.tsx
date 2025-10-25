@@ -4,14 +4,18 @@ import { resumeStore } from "@/store/resumeStore";
 import EditorForm from "./EditorForm";
 import Template from "../templates";
 import { Download } from "lucide-react";
+import TemplateDrawer from "./components/TemplateDrawer";
 
 export default function ResumeEditor() {
   const snap = useSnapshot(resumeStore);
 
   return (
-    <div className="fixed pt-24 inset-0 w-full flex justify-center">
-      <div className="flex flex-row gap-x-8 w-[96%] h-full">
-        <div className="w-1/2 shrink-0 pr-4 h-full overflow-y-auto no-scrollbar border">
+    <div className="w-full flex flex-col lg:items-center justify-center">
+      <div className="flex justify-end w-full my-3 pr-3">
+        <TemplateDrawer />
+      </div>
+      <div className="flex flex-row gap-x-8 lg:w-[96%] h-full">
+        <div className="w-full lg:w-1/2 shrink-0 lg:pr-4 h-full overflow-y-auto no-scrollbar border">
           <EditorForm />
         </div>
         {/* preview */}
@@ -46,5 +50,5 @@ export default function ResumeEditor() {
         </div>
       </div>
     </div>
-  )
-};
+  );
+}

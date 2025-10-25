@@ -24,6 +24,7 @@ export default function Template({
   sectionOrder,
 }: Resume) {
   const [pages, setPages] = useState<React.ReactNode[][]>([]);
+  const [isMobile, setIsMobile] = useState(false);
   const measureRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -179,7 +180,7 @@ export default function Template({
               className="page w-full mx-auto bg-white text-black shadow-lg mb-8 overflow-hidden rounded-lg"
               style={{ width: `100%`, minHeight: `${PAGE_HEIGHT}px`, maxHeight: `${PAGE_HEIGHT}px` }}
             >
-              <div className="flex flex-col justify-between px-12 py-10 min-h-full">
+              <div className="flex flex-col justify-between px-5 py-4 lg:px-12 lgpy-10 min-h-full">
                 {/* Header only on first page */}
                 {pageIndex === 0 && (
                   <div className="mb-4">
@@ -220,5 +221,5 @@ export default function Template({
       </div>
       
     </>
-  )
-};
+  );
+}
