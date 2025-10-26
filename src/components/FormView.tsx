@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Button } from "./ui/button";
 import { uploadCV } from "@/server/session.server";
 import { useToast } from "@/hooks/use-toast";
-import { handleApiResponse, POST } from "@/server/base.api";
+import { handleApiResponse } from "@/server/base.api";
 import { useSnapshot } from "valtio";
 import { burnedActions, burnedStore } from "@/store/burnedStore";
 import { resumeStore } from "@/store/resumeStore";
@@ -51,11 +51,11 @@ export default function FormView() {
           mode: snap.activeTab,
           content,
         });
-        console.log("🔥 API payload:", payload);
-        console.log("📦 Setting burnedStore.result:", {
-          mode: snap.activeTab,
-          content,
-        });
+        // console.log("🔥 API payload:", payload);
+        // console.log("📦 Setting burnedStore.result:", {
+        //   mode: snap.activeTab,
+        //   content,
+        // });
         toast({
           title: "Success",
           description:
@@ -65,7 +65,6 @@ export default function FormView() {
               ? "Your optimized CV is ready!"
               : "Your cover letter is ready!",
         });
-        
       });
     } catch (error) {
       toast({
@@ -106,9 +105,9 @@ export default function FormView() {
                       </div>
                     </label>
                   </div>
-                  {/* {snap.file && (
-                    <p className="">{snap.file.name}</p>
-                  )} */}
+                  {selectedFile && (
+                    <p className="text-sm">{selectedFile.name}</p>
+                  )}
                 </div>
 
                 {/* job desc required for format & cover letter */}
@@ -116,7 +115,7 @@ export default function FormView() {
                   <div>
                     <label>Job Description</label>
                     <textarea
-                      className="resize-none w-full h-[100px] rounded-md"
+                      className="resize-none w-full px-2 py-1 h-[100px] rounded-md"
                       value={snap.jobDesc}
                       onChange={(e) => burnedActions.setJobDesc(e.target.value)}
                       required
