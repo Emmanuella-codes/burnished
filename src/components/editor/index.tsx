@@ -1,18 +1,33 @@
 "use client";
 import { useSnapshot } from "valtio";
-import { resumeStore } from "@/store/resumeStore";
+import { hydrateResumeStore, resumeStore } from "@/store/resumeStore";
 import EditorForm from "./EditorForm";
 import Template from "../templates";
-import { Download } from "lucide-react";
+import { ArrowLeft, Download } from "lucide-react";
 import TemplateDrawer from "./components/TemplateDrawer";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function ResumeEditor() {
   const snap = useSnapshot(resumeStore);
+  const router = useRouter();
+
+  useEffect(() => {
+    hydrateResumeStore();
+  }, [])
 
   return (
     <div className="w-full flex flex-col lg:items-center justify-center">
-      <div className="flex justify-end w-full my-3 pr-3">
-        <TemplateDrawer />
+      <div className="flex flex-col px-3">
+        <button 
+          className="bg-gray-500 text-sm w-20 flex flex-row items-center justify-center text-white py-1 gap-x-1 rounded-md"
+          onClick={() => router.back()}
+        >
+          <ArrowLeft size={20} /> Back
+        </button>
+        <div className="flex justify-end w-full my-3">
+          <TemplateDrawer />
+        </div>
       </div>
       <div className="flex flex-row xl:gap-x-8 lg:w-[96%] h-full">
         <div className="w-full lg:w-1/2 shrink-0 lg:pr-4 h-full overflow-y-auto no-scrollbar border">

@@ -6,7 +6,7 @@ import { useToast } from "@/hooks/use-toast";
 import { handleApiResponse } from "@/server/base.api";
 import { useSnapshot } from "valtio";
 import { burnedActions, burnedStore } from "@/store/burnedStore";
-import { resumeStore } from "@/store/resumeStore";
+import { hydrateResumeStore, resumeStore } from "@/store/resumeStore";
 import { useRouter } from "next/navigation";
 
 export default function FormView() {
@@ -39,6 +39,7 @@ export default function FormView() {
 
         if (snap.activeTab === "format") {
           content = payload?.formattedResume;
+          hydrateResumeStore();
           Object.assign(resumeStore, content);
           router.push("/editor");
         } else if (snap.activeTab === "letter") {

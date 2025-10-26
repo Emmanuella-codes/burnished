@@ -1,10 +1,15 @@
 "use client";
-import { burnedStore } from "@/store/burnedStore";
+import { burnedStore, hydrateBurnedStore } from "@/store/burnedStore";
 import { useSnapshot } from "valtio";
 import ReactMarkdown from "react-markdown";
+import { useEffect } from "react";
 
 export default function ResultView() {
   const snap = useSnapshot(burnedStore);
+
+  useEffect(() => {
+    hydrateBurnedStore();
+  }, [])
 
   if (!snap.result?.content) {
     return (
