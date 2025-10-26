@@ -14,7 +14,7 @@ export default function ResumeEditor() {
       <div className="flex justify-end w-full my-3 pr-3">
         <TemplateDrawer />
       </div>
-      <div className="flex flex-row gap-x-8 lg:w-[96%] h-full">
+      <div className="flex flex-row xl:gap-x-8 lg:w-[96%] h-full">
         <div className="w-full lg:w-1/2 shrink-0 lg:pr-4 h-full overflow-y-auto no-scrollbar border">
           <EditorForm />
         </div>

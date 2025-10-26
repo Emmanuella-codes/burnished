@@ -25,6 +25,7 @@ export default function Hero() {
       if (response && response.token) {
         localStorage.setItem("burned_token", response.token);
         localStorage.setItem("burned_user", name.trim());
+        document.cookie = `token=${response.token}; path=/; max-age=86400; secure; samesite=strict`;
         setOpen(false);
           router.push("/burned");
       } else {
