@@ -1,3 +1,5 @@
+import { useCursorPreservingChange } from "@/hooks/usePreserveCursor";
+import { useSingleDateField } from "@/hooks/useSingleDateField";
 import { resumeStore } from "@/store/resumeStore";
 
 type AwardProps = {
@@ -14,30 +16,33 @@ type Props = {
 };
 
 export default function Awards({ award, index }: Props) {
-  const handleChange = (field: keyof AwardProps, value: string) => {
-    if (resumeStore.awards) {
-      resumeStore.awards[index] = {
-        ...resumeStore.awards[index],
-        [field]: value,
-      }
-    };
+  const { handleChange, setRef } = useCursorPreservingChange<HTMLInputElement>();
+
+  const ensureAward = () => {
+    resumeStore.awards = resumeStore.awards ?? [];
+    resumeStore.awards[index] = resumeStore.awards[index] ?? ({} as AwardProps);
+    return resumeStore.awards[index];
   };
 
-  // const [day, month, year] (award.date || "").split("/");
+  const dateField = useSingleDateField({
+    date: award.date,
+    onUpdate: (value) => {
+      ensureAward().date = value;
+    },
+  });
 
-  const handleDateChange = (part: "day" | "month" | "year", value: string) => {
-    const [d, m, y] = (award.date || "").split("/");
-
-    const newDay = part === "day" ? value : d || "";
-    const newMonth = part === "month" ? value : m || "";
-    const newYear = part === "year" ? value : y || "";
-
-    const formatted = `${newDay}/${newMonth}/${newYear}`;
-    handleChange("date", formatted);
+  const updateField = (field: keyof AwardProps, value: string) => {
+    handleChange(field, () => {
+      (ensureAward() as any)[field] = value;
+    });
   };
 
-  const handleDescChange = (descIdx: number, value: string) => {
-    resumeStore.awards?.[index]?.desc?.splice(descIdx, 1, value);
+  const updateDesc = (descIdx: number, value: string) => {
+    handleChange(`desc-${descIdx}`, () => {
+      const awardItem = ensureAward();
+      awardItem.desc = awardItem.desc ?? [];
+      awardItem.desc[descIdx] = value;
+    });
   };
 
   const addDesc = () => {
@@ -56,56 +61,42 @@ export default function Awards({ award, index }: Props) {
             <div className="flex flex-col">
               <label htmlFor="" className="">Award</label>
               <input
+                ref={setRef('title')}
                 type="text"
                 className="rounded-md px-2 py-1"
                 value={award.title}
-                onChange={(e) => handleChange("title", e.target.value)}
-              />
-            </div>
-            <div className="flex flex-col">
-              <label htmlFor="" className="">Link</label>
-              <input
-                type="text"
-                className="rounded-md px-2 py-1"
-                value={award.link || ""}
-                onChange={(e) => handleChange("link", e.target.value)}
+                onChange={(e) => updateField("title", e.target.value)}
               />
             </div>
             <div className="flex flex-col">
               <label htmlFor="" className="">Issuer</label>
               <input
+                ref={setRef('issuer')}
                 type="text"
                 className="rounded-md px-2 py-1"
                 value={award.issuer || ""}
-                onChange={(e) => handleChange("issuer", e.target.value)}
+                onChange={(e) => updateField("issuer", e.target.value)}
               />
             </div>
-            <div className="w-full flex flex-col lg:flex-row lg:gap-x-3">
+            <div className="flex flex-row justify-between">
               <div className="flex flex-col">
-                <label htmlFor="">Day</label>
+                <label htmlFor="">Date</label>
                 <input
-                  type="text" 
-                  className="w-full rounded-md"
-                  // value={}
-                  // onChange={(e) => handleDateChange()} 
+                  type="month" 
+                  className="w-44 rounded-md px-2 py-1"
+                  value={dateField.getInputValue()}
+                  onChange={(e) => dateField.handleDateChange(e.target.value)} 
                 />
               </div>
               <div className="flex flex-col">
-                <label htmlFor="">Month</label>
+                <label htmlFor="" className="">Link</label>
                 <input
-                  type="text" 
-                  className="w-full rounded-md"
-                  // value={}
-                  // onChange={(e) => handleDateChange()} 
-                />
-              </div>
-              <div className="flex flex-col">
-                <label htmlFor="">Year</label>
-                <input
-                  type="text" 
-                  className="w-full rounded-md"
-                  // value={}
-                  // onChange={(e) => handleDateChange()} 
+                  ref={setRef('link')}
+                  type="text"
+                  className="rounded-md px-2 py-1"
+                  value={award.link || ""}
+                  onChange={(e) => updateField("link", e.target.value)}
+                  placeholder="https://..."
                 />
               </div>
             </div>
@@ -115,10 +106,11 @@ export default function Awards({ award, index }: Props) {
               <div className="flex flex-col gap-y-3">
                 {award.desc?.map((a, idx) => (
                   <div key={`awdd-${idx}`} className="flex flex-row gap-x-2">
-                    <input 
+                    <input
+                      ref={setRef(`desc-${idx}`)} 
                       type="text"
                       value={a}
-                      onChange={(e) => handleDescChange(idx, e.target.value)}
+                      onChange={(e) => updateDesc(idx, e.target.value)}
                       className="rounded-md px-2 py-1 w-full"
                     />
                     <button
@@ -141,9 +133,8 @@ export default function Awards({ award, index }: Props) {
               </div>
             </div>
           </div>
-          
         </form>
       </div>
     </section>
-  )
-};
+  );
+}

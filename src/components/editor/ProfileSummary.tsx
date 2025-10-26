@@ -1,8 +1,15 @@
+import { useCursorPreservingChange } from "@/hooks/usePreserveCursor";
 import { resumeStore } from "@/store/resumeStore";
+import { useRef } from "react";
 
 export default function ProfileSummary({profileSummary}: { profileSummary?: string }) {
-  const handleChange = (value: string) => {
-    resumeStore.profileSummary = value;
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  const { handleChange, setRef } = useCursorPreservingChange<HTMLTextAreaElement>();
+
+  const updateSummary = (value: string) => {
+    handleChange('summary', () => {
+      resumeStore.profileSummary = value;
+    });
   };
 
   return (
@@ -11,14 +18,15 @@ export default function ProfileSummary({profileSummary}: { profileSummary?: stri
         <form action="">
           <div className="flex flex-col gap-y-2">
             <label htmlFor="" className="">Profile Summary</label>
-            <textarea 
-              className="w-full rounded-md" 
+            <textarea
+              ref={setRef('summary')}
+              className="w-full rounded-md px-2 py-1 lg:h-20 resize-none" 
               value={profileSummary || ""}
-              onChange={(e) => handleChange(e.target.value)}
+              onChange={(e) => updateSummary(e.target.value)}
             />
           </div>
         </form>
       </div>
     </section>
-  )
-};
+  );
+}

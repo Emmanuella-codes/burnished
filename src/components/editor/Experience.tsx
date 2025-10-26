@@ -1,3 +1,6 @@
+import { useDateFields } from "@/hooks/useDateFields";
+import { useCursorPreservingChange } from "@/hooks/usePreserveCursor";
+import { maxDate } from "@/hooks/useSingleDateField";
 import { resumeStore } from "@/store/resumeStore";
 
 type ExperienceProps = {
@@ -15,15 +18,18 @@ type Props = {
 };
 
 export default function Experiences({ exp, index }: Props) {
-  const handleChange = (field: keyof ExperienceProps, value: string) => {
-    resumeStore.experiences[index] = {
-      ...resumeStore.experiences[index],
-      [field]: value,
-    };
+  const { handleChange, setRef } = useCursorPreservingChange<HTMLInputElement>();
+
+  const updateField = (field: keyof ExperienceProps, value: string) => {
+    handleChange(field, () => {
+      (resumeStore.experiences[index] as any)[field] = value;
+    });
   };
 
-  const handleDescChange = (descIdx: number, value: string) => {
-    resumeStore.experiences[index].desc[descIdx] = value;
+  const updateDesc = (descIdx: number, value: string) => {
+    handleChange(`desc-${descIdx}`, () => {
+      resumeStore.experiences[index].desc[descIdx] = value;
+    });
   };
 
   const addDesc = () => {
@@ -35,6 +41,14 @@ export default function Experiences({ exp, index }: Props) {
     resumeStore.experiences[index].desc.splice(descIdx, 1);
   };
 
+  const dateFields = useDateFields({
+    startDate: exp.startDate,
+    endDate: exp.endDate,
+    onUpdate: (field, value) => {
+      resumeStore.experiences[index][field] = value;
+    },
+  });
+
   return (
     <section className="border border-slate-400 px-6 py-8 rounded-sm">
       <div className="">
@@ -43,47 +57,65 @@ export default function Experiences({ exp, index }: Props) {
             <div className="flex flex-col">
               <label htmlFor="" className="">Job Title</label>
               <input
+                ref={setRef('occupation')}
                 type="text" 
                 className="rounded-md px-2 py-1"
                 value={exp.occupation}
-                onChange={(e) => handleChange("occupation", e.target.value)}
+                onChange={(e) => updateField("occupation", e.target.value)}
               />
             </div>
             <div className="flex flex-col">
               <label htmlFor="" className="">Employer</label>
-              <input 
+              <input
+                ref={setRef('company')}
                 type="text" 
                 className="rounded-md px-2 py-1"
                 value={exp.company}
-                onChange={(e) => handleChange("company", e.target.value)}
+                onChange={(e) => updateField("company", e.target.value)}
               />
             </div>
             <div className="w-full flex flex-col lg:flex-row lg:gap-x-3">
               <div className="flex flex-col flex-1">
                 <label htmlFor="">Start Date</label>
                 <input
-                  type="text"
+                  type="month"
                   className="w-full rounded-md px-2 py-1"
-                  value={exp.startDate}
-                  onChange={(e) => handleChange("startDate", e.target.value)}
+                  max={maxDate}
+                  value={dateFields.getInputValue(exp.startDate)}
+                  onChange={(e) => dateFields.handleDateChange("startDate", e.target.value)}
                 />
               </div>
               <div className="flex flex-col flex-1">
                 <label htmlFor="">End Date</label>
-                <input
-                  type="text"
-                  className="w-full rounded-md px-2 py-1"
-                  value={exp.endDate}
-                  onChange={(e) => handleChange("endDate", e.target.value)}
-                />
+                <div className="flex flex-col gap-y-1">
+                  <input
+                    type="month"
+                    className="w-full rounded-md px-2 py-1"
+                    max={maxDate}
+                    min={dateFields.getInputValue(exp.startDate)}
+                    value={dateFields.getInputValue(exp.endDate)}
+                    onChange={(e) => dateFields.handleDateChange("endDate", e.target.value)}
+                    disabled={dateFields.isPresent}
+                  />
+                  <label className="flex items-center gap-x-2 text-sm">
+                    <input
+                      type="checkbox"
+                      checked={dateFields.isPresent}
+                      onChange={dateFields.handlePresentToggle}
+                      className="cursor-pointer"
+                    />
+                    <span>Currently working here</span>
+                  </label>
+                </div>
               </div>
               <div className="flex flex-col flex-1">
                 <label htmlFor="">Location</label>
                 <input
+                  ref={setRef('location')}
                   type="text"
                   className="w-full rounded-md px-2 py-1"
                   value={exp.location || ""}
-                  onChange={(e) => handleChange("location", e.target.value)}
+                  onChange={(e) => updateField("location", e.target.value)}
                 />
               </div>
             </div>
@@ -93,10 +125,11 @@ export default function Experiences({ exp, index }: Props) {
               <div className="flex flex-col gap-y-3">
                 {exp.desc.map((d, idx) => (
                   <div key={`desc-${idx}`} className="flex flex-row gap-x-2">
-                    <input 
+                    <input
+                      ref={setRef(`desc-${idx}`)}
                       type="text"
                       value={d}
-                      onChange={(e) => handleDescChange(idx, e.target.value)}
+                      onChange={(e) => updateDesc(idx, e.target.value)}
                       className="rounded-md px-2 py-1 w-full"
                     />
                     <button
@@ -117,12 +150,10 @@ export default function Experiences({ exp, index }: Props) {
                   </div>
                 ))}
               </div>
-              
             </div>
           </div>
-          
         </form>
       </div>
     </section>
-  )
-};
+  );
+}

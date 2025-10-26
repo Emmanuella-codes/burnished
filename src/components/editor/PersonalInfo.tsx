@@ -1,4 +1,5 @@
 "use client";
+import { useCursorPreservingChange } from "@/hooks/usePreserveCursor";
 import { resumeStore } from "@/store/resumeStore";
 import { Header } from "@/typings/resume";
 import { useState } from "react";
@@ -14,12 +15,12 @@ export default function PersonalInfo({ header }: Props) {
       (f) => header[f as keyof Header] && header[f as keyof Header] !== ""
     )
   );
+  const { handleChange, setRef } = useCursorPreservingChange<HTMLInputElement>();
 
-  const handleChange = (field: keyof Header, value: string) => {
-    resumeStore.header = {
-      ...resumeStore.header,
-      [field]: value,
-    };
+  const updateField = (field: keyof Header, value: string) => {
+    handleChange(field, () => {
+      resumeStore.header[field] = value;
+    });
   };
 
   const toggleField = (field: string) => {
@@ -45,7 +46,8 @@ export default function PersonalInfo({ header }: Props) {
                 type="text"
                 className="w-full rounded-md px-2 py-1"
                 value={header.fullname}
-                onChange={(e) => handleChange("fullname", e.target.value)} 
+                ref={setRef('fullname')}
+                onChange={(e) => updateField("fullname", e.target.value)} 
               />
             </div>
             <div className="flex flex-col">
@@ -54,7 +56,8 @@ export default function PersonalInfo({ header }: Props) {
                 type="text"
                 className="w-full rounded-md px-2 py-1"
                 value={header.jobTitle}
-                onChange={(e) => handleChange("jobTitle", e.target.value)} 
+                ref={setRef('jobTitle')}
+                onChange={(e) => updateField("jobTitle", e.target.value)} 
               />
             </div>
             <div className="flex flex-col">
@@ -63,7 +66,8 @@ export default function PersonalInfo({ header }: Props) {
                 type="text"
                 className="w-full rounded-md px-2 py-1"
                 value={header.location ?? ""}
-                onChange={(e) => handleChange("location", e.target.value)} 
+                ref={setRef('location')}
+                onChange={(e) => updateField("location", e.target.value)} 
               />
             </div>
             <div className="w-full flex flex-row gap-x-3">
@@ -73,7 +77,8 @@ export default function PersonalInfo({ header }: Props) {
                   type="text"
                   className="w-full rounded-md px-2 py-1"
                   value={header.email}
-                  onChange={(e) => handleChange("email", e.target.value)} 
+                  ref={setRef('email')}
+                  onChange={(e) => updateField("email", e.target.value)} 
                 />
               </div>
               <div className="flex flex-col flex-1">
@@ -82,7 +87,8 @@ export default function PersonalInfo({ header }: Props) {
                   type="text"
                   className="w-full rounded-md px-2 py-1"
                   value={header.phone ?? ""}
-                  onChange={(e) => handleChange("phone", e.target.value)} 
+                  ref={setRef('phone')}
+                  onChange={(e) => updateField("phone", e.target.value)} 
                 />
               </div>
             </div>
@@ -94,7 +100,8 @@ export default function PersonalInfo({ header }: Props) {
                     type="text"
                     className="w-full rounded-md px-2 py-1"
                     value={header.github ?? ""}
-                    onChange={(e) => handleChange("github", e.target.value)} 
+                    ref={setRef('github')}
+                    onChange={(e) => updateField("github", e.target.value)} 
                   />
                 </div>
                 <div className="flex flex-col">
@@ -102,8 +109,10 @@ export default function PersonalInfo({ header }: Props) {
                   <input
                     type="text"
                     className="w-full rounded-md px-2 py-1"
+                    placeholder="https://..."
                     value={header.githubUrl ?? ""}
-                    onChange={(e) => handleChange("githubUrl", e.target.value)} 
+                    ref={setRef('githubUrl')}
+                    onChange={(e) => updateField("githubUrl", e.target.value)} 
                   />
                 </div>
               </div>
@@ -116,7 +125,8 @@ export default function PersonalInfo({ header }: Props) {
                     type="text"
                     className="w-full rounded-md px-2 py-1"
                     value={header.linkedin ?? ""}
-                    onChange={(e) => handleChange("linkedin", e.target.value)} 
+                    ref={setRef('linkedin')}
+                    onChange={(e) => updateField("linkedin", e.target.value)} 
                   />
                 </div>
                 <div className="flex flex-col">
@@ -124,8 +134,10 @@ export default function PersonalInfo({ header }: Props) {
                   <input
                     type="text"
                     className="w-full rounded-md px-2 py-1"
+                    placeholder="https://..."
                     value={header.linkedinUrl ?? ""}
-                    onChange={(e) => handleChange("linkedinUrl", e.target.value)} 
+                    ref={setRef('linkedinUrl')}
+                    onChange={(e) => updateField("linkedinUrl", e.target.value)} 
                   />
                 </div>
               </div>
@@ -138,7 +150,8 @@ export default function PersonalInfo({ header }: Props) {
                     type="text"
                     className="w-full rounded-md px-2 py-1"
                     value={header.website ?? ""}
-                    onChange={(e) => handleChange("website", e.target.value)} 
+                    ref={setRef('website')}
+                    onChange={(e) => updateField("website", e.target.value)} 
                   />
                 </div>
                 <div className="flex flex-col">
@@ -146,8 +159,10 @@ export default function PersonalInfo({ header }: Props) {
                   <input
                     type="text"
                     className="w-full rounded-md px-2 py-1"
+                    placeholder="https://..."
                     value={header.websiteUrl ?? ""}
-                    onChange={(e) => handleChange("websiteUrl", e.target.value)} 
+                    ref={setRef('websiteUrl')}
+                    onChange={(e) => updateField("websiteUrl", e.target.value)} 
                   />
                 </div>
               </div>
