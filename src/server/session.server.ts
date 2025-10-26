@@ -28,9 +28,9 @@ export const uploadCV = async (
   }
 
   const token = localStorage.getItem("burned_token");
-  for (const [key, value] of formData.entries()) {
-    console.log("FormData →", key, value);
-  }
+  // for (const [key, value] of formData.entries()) {
+  //   console.log("FormData →", key, value);
+  // }
   const res = await fetch(`${ServerConfig.baseUrl}/documents/upload`, {
     method: "POST",
     body: formData,
