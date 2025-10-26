@@ -1,6 +1,7 @@
+import { useCursorPreservingChange } from "@/hooks/usePreserveCursor";
 import { resumeStore } from "@/store/resumeStore";
 
-type ProjectsProps = {
+type ProjectProps = {
   title: string;
   link?: string;
   subTitle?: string;
@@ -8,20 +9,23 @@ type ProjectsProps = {
 };
 
 type Props = {
-  proj: ProjectsProps;
+  proj: ProjectProps;
   index: number;
 };
 
 export default function Projects({ proj, index }: Props) {
-  const handleChange = (field: keyof ProjectsProps, value: string) => {
-    resumeStore.projects[index] = {
-      ...resumeStore.projects[index],
-      [field]: value,
-    };
+  const { handleChange, setRef } = useCursorPreservingChange<HTMLInputElement>();
+  
+  const updateField = (field: keyof ProjectProps, value: string) => {
+    handleChange(field, () => {
+      (resumeStore.projects[index] as any)[field] = value;
+    });
   };
 
-  const handleDescChange = (descIdx: number, value: string) => {
-    resumeStore.projects[index].desc[descIdx] = value;
+  const updateDesc = (descIdx: number, value: string) => {
+    handleChange(`desc-${descIdx}`, () => {
+      resumeStore.projects[index].desc[descIdx] = value;
+    });
   };
 
   const addDesc = () => {
@@ -39,29 +43,32 @@ export default function Projects({ proj, index }: Props) {
           <div className="flex flex-col gap-y-3">
             <div className="flex flex-col">
               <label htmlFor="" className="">Project title</label>
-              <input 
+              <input
+                ref={setRef('title')}
                 type="text"
                 className="rounded-md px-2 py-1"
                 value={proj.title}
-                onChange={(e) => handleChange("title", e.target.value)} 
+                onChange={(e) => updateField("title", e.target.value)} 
               />
             </div>
             <div className="flex flex-col">
               <label htmlFor="" className="">Link</label>
-              <input 
+              <input
+                ref={setRef('link')}
                 type="text"
                 className="rounded-md px-2 py-1"
                 value={proj.link}
-                onChange={(e) => handleChange("link", e.target.value)}
+                onChange={(e) => updateField("link", e.target.value)}
               />
             </div>
             <div className="flex flex-col">
               <label htmlFor="" className="">Sub title</label>
-              <input 
+              <input
+                ref={setRef('subTitle')}
                 type="text"
                 className="rounded-md px-2 py-1"
                 value={proj.subTitle}
-                onChange={(e) => handleChange("subTitle", e.target.value)} 
+                onChange={(e) => updateField("subTitle", e.target.value)} 
               />
             </div>
             <div className="flex flex-col">
@@ -70,10 +77,11 @@ export default function Projects({ proj, index }: Props) {
               <div className="flex flex-col gap-y-3">
                 {proj.desc.map((p, idx) => (
                   <div key={`pproj-${idx}`} className="flex flex-row gap-x-2">
-                    <input 
+                    <input
+                      ref={setRef(`desc-${idx}`)}
                       type="text"
                       value={p}
-                      onChange={(e) => handleDescChange(idx, e.target.value)}
+                      onChange={(e) => updateDesc(idx, e.target.value)}
                       className="rounded-md px-2 py-1 w-full"
                     />
                     <button
@@ -96,11 +104,8 @@ export default function Projects({ proj, index }: Props) {
               </div>
             </div>
           </div>
-          
         </form>
       </div>
-      {/* AI Suggestion */}
-      <div className=""></div>
     </section>
-  )
-};
+  );
+}

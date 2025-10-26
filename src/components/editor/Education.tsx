@@ -1,3 +1,6 @@
+import { useDateFields } from "@/hooks/useDateFields";
+import { useCursorPreservingChange } from "@/hooks/usePreserveCursor";
+import { maxDate } from "@/hooks/useSingleDateField";
 import { resumeStore } from "@/store/resumeStore";
 
 type EducationProps = {
@@ -15,17 +18,18 @@ type Props = {
 };
 
 export default function Education({ educn, index }: Props) {
-  const handleChange = (field: keyof EducationProps, value: string) => {
-    resumeStore.education[index] = {
-      ...resumeStore.education[index],
-      [field]: value,
-    };
+  const { handleChange, setRef } = useCursorPreservingChange<HTMLInputElement>();
+
+  const updateField = (field: keyof EducationProps, value: string) => {
+    handleChange(field, () => {
+      (resumeStore.education[index] as any)[field] = value;
+    })
   };
 
-  const handleDescChange = (descIdx: number, value: string) => {
-    if (resumeStore.education[index].desc) {
-      resumeStore.education[index].desc[descIdx] = value;
-    }
+  const updateDesc = (descIdx: number, value: string) => {
+    handleChange(`desc-${descIdx}`, () => {
+      resumeStore.experiences[index].desc[descIdx] = value;
+    });
   };
 
   const addDesc = () => {
@@ -41,6 +45,14 @@ export default function Education({ educn, index }: Props) {
     }
   };
 
+  const dateFields = useDateFields({
+      startDate: educn.startDate,
+      endDate: educn.endDate,
+      onUpdate: (field, value) => {
+        resumeStore.education[index][field] = value;
+      },
+    });
+
   return (
     <section className="border border-slate-400 px-6 py-8 rounded-sm">
       <div className="">
@@ -49,47 +61,64 @@ export default function Education({ educn, index }: Props) {
             <div className="flex flex-col">
               <label htmlFor="" className="">Degree</label>
               <input 
+                ref={setRef('degree')}
                 type="text" 
                 className="rounded-md px-2 py-1"
                 value={educn.degree}
-                onChange={(e) => handleChange("degree", e.target.value)}
+                onChange={(e) => updateField("degree", e.target.value)}
               />
             </div>
             <div className="flex flex-col">
               <label htmlFor="" className="">School / Institution</label>
-              <input 
+              <input
+                ref={setRef('institution')} 
                 type="text" 
                 className="rounded-md px-2 py-1"
                 value={educn.institution}
-                onChange={(e) => handleChange("institution", e.target.value)}
+                onChange={(e) => updateField("institution", e.target.value)}
               />
             </div>
             <div className="flex w-full flex-col lg:flex-row lg:gap-x-3">
               <div className="flex flex-col flex-1">
                 <label htmlFor="">Start Date</label>
                 <input 
-                  type="text" 
+                  type="month" 
                   className="w-full rounded-md px-2 py-1"
-                  value={educn.startDate}
-                  onChange={(e) => handleChange("startDate", e.target.value)}
+                  max={maxDate}
+                  value={dateFields.getInputValue(educn.startDate)}
+                  onChange={(e) => updateField("startDate", e.target.value)}
                 />
               </div>
               <div className="flex flex-col flex-1">
                 <label htmlFor="">End Date</label>
-                <input 
-                  type="text" 
-                  className="w-full rounded-md px-2 py-1" 
-                  value={educn.endDate}
-                  onChange={(e) => handleChange("endDate", e.target.value)}
-                />
+                <div className="flex flex-col gap-y-1">
+                  <input 
+                    type="month" 
+                    className="w-full rounded-md px-2 py-1"
+                    max={maxDate}
+                    min={dateFields.getInputValue(educn.startDate)}
+                    value={dateFields.getInputValue(educn.endDate)}
+                    onChange={(e) => updateField("endDate", e.target.value)}
+                  />
+                  <label className="flex items-center gap-x-2 text-sm">
+                    <input
+                      type="checkbox"
+                      checked={dateFields.isPresent}
+                      onChange={dateFields.handlePresentToggle}
+                      className="cursor-pointer"
+                    />
+                    <span>Currently working here</span>
+                  </label>
+                </div>
               </div>
               <div className="flex flex-col flex-1">
                 <label htmlFor="">Location</label>
-                <input 
+                <input
+                  ref={setRef('location')}
                   type="text" 
                   className="w-full rounded-md px-2 py-1"
                   value={educn.location || ""}
-                  onChange={(e) => handleChange("location", e.target.value)}
+                  onChange={(e) => updateField("location", e.target.value)}
                 />
               </div>
             </div>
@@ -99,10 +128,11 @@ export default function Education({ educn, index }: Props) {
               <div className="flex flex-col gap-y-3">
                 {educn.desc?.map((ed, idx) => (
                   <div key={`edcn-${idx}`} className="flex flex-row gap-x-2">
-                    <input 
+                    <input
+                      ref={setRef(`desc-${idx}`)}
                       type="text"
                       value={ed}
-                      onChange={(e) => handleDescChange(idx, e.target.value)}
+                      onChange={(e) => updateDesc(idx, e.target.value)}
                       className="rounded-md px-2 py-1 w-full"
                     />
                     <button
@@ -129,8 +159,6 @@ export default function Education({ educn, index }: Props) {
           
         </form>
       </div>
-      {/* AI Suggestion */}
-      <div className=""></div>
     </section>
-  )
-};
+  );
+}
