@@ -19,18 +19,18 @@ export default function TemplateExperience({ experiences }: TemplateExperiencePr
           <div key={`exp-${idx}`} className="">
             <div className="flex flex-row justify-between">
               <div className="">
-                <h3 className="text-sm font-semibold">{exp.occupation}</h3>
-                <h4 className="text-sm">{exp.company}</h4>
+                <h3 className="text-[14px] font-semibold">{exp.occupation}</h3>
+                <h4 className="text-[14px]">{exp.company}</h4>
               </div>
               <div className="flex flex-row gap-x-2">
-                <span className="text-sm">{`${exp.startDate} - ${exp.endDate}`}</span>
-                {exp.location && <span className="text-sm">{exp.location}</span>}
+                <span className="text-[14px]">{`${exp.startDate} - ${exp.endDate}`}</span>
+                {exp.location && <span className="text-[14px]">{exp.location}</span>}
               </div>
             </div>
             <div className="pl-4">
               <ul className="list-disc">
                 {exp.desc.map((item, idx) => (
-                  <li key={`expdesc-${idx}`} className="text-sm">{item}</li>
+                  <li key={`expdesc-${idx}`} className="text-[14px]">{item}</li>
                 ))}
               </ul>
             </div>
@@ -38,5 +38,5 @@ export default function TemplateExperience({ experiences }: TemplateExperiencePr
         ))}
       </div>
     </section>
-  )
-};
+  );
+}

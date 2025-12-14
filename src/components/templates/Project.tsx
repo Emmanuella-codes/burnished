@@ -17,14 +17,14 @@ export default function TemplateProject({ projects }: TemplateProjectProps) {
           <div key={`proj-${idx}`} className="">
             <div className="">
               <a href={proj.link} className="">
-                <h3 className="text-sm font-semibold">{proj.title}</h3>
+                <h3 className="text-[14px] font-semibold">{proj.title}</h3>
               </a>
-              {proj.subTitle && <h4 className="text-sm">{proj.subTitle}</h4>}
+              {proj.subTitle && <h4 className="text-[14px]">{proj.subTitle}</h4>}
             </div>
             <div className="pl-4">
               <ul className="list-disc">
                 {proj.desc.map((item, idx) => (
-                  <li key={`projdesc-${idx}`} className="text-sm">{item}</li>
+                  <li key={`projdesc-${idx}`} className="text-[14px]">{item}</li>
                 ))}
               </ul>
             </div>
@@ -32,5 +32,5 @@ export default function TemplateProject({ projects }: TemplateProjectProps) {
         ))}
       </div>
     </section>
-  )
-};
+  );
+}

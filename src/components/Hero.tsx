@@ -48,9 +48,12 @@ export default function Hero() {
   return (
     <div className="w-full px-3 flex flex-col gap-5 md:gap-9">
       <div className="w-full flex gap-2 md:gap-6 flex-col justify-center items-center">
-        <h1 className="font-bold text-[1.4rem] leading-8 md:text-3xl md:max-w-[450px] lg:max-w-[480px] lg:text-4xl text-center">Get your <span className="text-blue-600">resume/cv</span> roasted and polished by AI</h1>
+        <h1 className="font-bold text-[1.4rem] leading-8 md:text-3xl md:max-w-[450px] lg:max-w-[480px] lg:text-4xl text-center">Get your {" "}
+          <span className="bg-gradient-to-r from-[#b721ff] to-[#21d4fd] bg-clip-text text-transparent">resume/cv</span> roasted and polished by A
+        I</h1>
         <p className="lg:text-base lg:max-w-[77%] text-center">
           <span className="font-semibold">Your CV is probably trash. Let's fix that.</span> {" "}
+          <br />
           Get roasted by AI or get optimized for your dream role. Either way, you're walking away with a better resume that actually lands interviews.
         </p>
       </div>

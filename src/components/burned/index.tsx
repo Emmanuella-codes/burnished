@@ -12,7 +12,7 @@ export default function BurnedCmp() {
     <div className="w-full flex flex-col items-center lg:gap-y-8">
       <div className="lg:w-[60%]">
         <div className="flex flex-col items-center mb-3">
-          <h2 className="font-semibold text-xl">🔥 CV/Resume Optimizer</h2>
+          <h2 className="text-xl">🔥 CV/Resume Optimizer</h2>
           <p className="text-center">Roast, optimize or generate cover letters for your CV/Resume</p>
         </div>
         <div className="w-full flex flex-row justify-between gap-2 flex-wrap lg:flex-nowrap">

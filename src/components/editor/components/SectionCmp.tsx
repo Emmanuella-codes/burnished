@@ -30,7 +30,7 @@ export function Section({
   
   return (
     <div
-      className={`flex flex-col lg:gap-y-4 rounded-md transition-all duration-150 ${
+      className={`flex flex-col gap-y-2 lg:gap-y-4 rounded-md transition-all duration-150 ${
         isDragging ? "opacity-50 border-dashed border-blue-400" : ""
       } ${isHovered ? "bg-blue-50 border border-blue-300" : "border-transparent"}`} 
     >
@@ -51,7 +51,7 @@ export function Section({
               className="text-gray-500 cursor-grab active:cursor-grabbing"
             />
           )}
-          <h2 className="lg:text-xl font-bold">{title}</h2>
+          <h2 className="md:text-xl text-sm font-bold">{title}</h2>
         </div>
         <button
           type="button"

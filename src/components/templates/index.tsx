@@ -9,9 +9,10 @@ import TemplateAwards from "./Awards";
 import TemplateHeader from "./Header";
 import { useEffect, useRef, useState } from "react";
 
+const PAGE_WIDTH = 816;
 const PAGE_HEIGHT = 1056; // ~11 inches at 96 DPI
 const HEADER_HEIGHT = 120; // Approximate header height
-const PADDING = 80; // py-10 + spacing
+const PADDING = 48; 
 
 export default function Template({
   header,
@@ -24,8 +25,26 @@ export default function Template({
   sectionOrder,
 }: Resume) {
   const [pages, setPages] = useState<React.ReactNode[][]>([]);
-  const [isMobile, setIsMobile] = useState(false);
+  const [scale, setScale] = useState(1);
+  const containerRef = useRef<HTMLDivElement>(null);
   const measureRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const updateScale = () => {
+      if (containerRef.current) {
+        if (!containerRef.current) return;
+      
+      const containerWidth = containerRef.current.offsetWidth;
+      const availableWidth = containerWidth - 32; // account for padding/margins
+      const newScale = Math.min(availableWidth / PAGE_WIDTH, 1);
+      setScale(newScale);
+      }
+    };
+
+    updateScale();
+    window.addEventListener('resize', updateScale);
+    return () => window.removeEventListener('resize', updateScale);
+  }, []);
 
   useEffect(() => {
     if (!measureRef.current) return;
@@ -91,11 +110,11 @@ export default function Template({
       const paginatedPages: React.ReactNode[][] = [];
       let currentPage: React.ReactNode[] = [];
       let currentHeight = HEADER_HEIGHT; // First page has header
-      const maxHeight = PAGE_HEIGHT - PADDING;
+      const maxHeight = PAGE_HEIGHT - (PADDING * 2);
 
       allSections.forEach((section, idx) => {
         const element = sectionElements[idx] as HTMLElement;
-        const sectionHeight = element.offsetHeight + 24; // Include gap
+        const sectionHeight = element.offsetHeight + 10; // Include gap
 
         // Check if section fits on current page
         if (currentHeight + sectionHeight > maxHeight) {
@@ -122,10 +141,14 @@ export default function Template({
   }, [header, profileSummary, skills, experiences, education, projects, awards, sectionOrder]);
   
   return (
-    <>
-      {/* Hidden measurement container */}
-      <div ref={measureRef} className="invisible absolute pointer-events-none">
-        <div className="space-y-2.5">
+    <div ref={containerRef} className="w-full">
+      {/* Hidden measurement container - FIXED WIDTH */}
+      <div 
+        ref={measureRef} 
+        className="fixed -left-[9999px] pointer-events-none"
+        style={{ width: `${PAGE_WIDTH}px` }}
+      >
+        <div className="space-y-2.5" style={{ padding: '48px' }}>
           {sectionOrder.map((sect) => {
             switch (sect) {
               case "profileSummary":
@@ -171,16 +194,22 @@ export default function Template({
         </div>
       </div>
 
-      {/* Actual rendered pages */}
-      <div className="space-y-4">
+      {/* Actual rendered pages with scale transform */}
+      <div className="space-y-4 flex flex-col items-center">
         {pages.length > 0 ? (
           pages.map((pageSections, pageIndex) => (
             <div 
               key={`page-${pageIndex}`}
-              className="page w-full mx-auto bg-white text-black shadow-lg mb-8 overflow-hidden rounded-lg"
-              style={{ width: `100%`, minHeight: `${PAGE_HEIGHT}px`, maxHeight: `${PAGE_HEIGHT}px` }}
+              style={{
+                width: `${PAGE_WIDTH}px`,
+                height: `${PAGE_HEIGHT}px`,
+                transform: `scale(${scale})`,
+                transformOrigin: 'top center',
+                marginBottom: pageIndex < pages.length - 1 ? `${(PAGE_HEIGHT * scale) - PAGE_HEIGHT + 16}px` : '0',
+              }}
+              className="bg-white text-black shadow-lg overflow-hidden rounded-lg"
             >
-              <div className="flex flex-col justify-between px-5 py-4 lg:px-12 lgpy-10 min-h-full">
+              <div className="h-full" style={{ padding: '48px' }}>
                 {/* Header only on first page */}
                 {pageIndex === 0 && (
                   <div className="mb-4">
@@ -199,27 +228,30 @@ export default function Template({
                     />
                   </div>
                 )}
-                <div className="flex-1 space-y-2.5 page-content">
+                <div className="flex-1 space-y-2.5">
                   {pageSections}
                 </div>
               </div>
             </div>
           ))
         ) : (
-          // Show single page while measuring
-          <div className="page w-full mx-auto bg-white text-black shadow-lg">
-            <div className="px-12 py-10">
+          <div 
+            style={{
+              width: `${PAGE_WIDTH}px`,
+              minHeight: `${PAGE_HEIGHT}px`,
+              transform: `scale(${scale})`,
+              transformOrigin: 'top center',
+            }}
+            className="bg-white text-black shadow-lg"
+          >
+            <div style={{ padding: `${PADDING}px` }}>
               <div className="mb-4">
                 <TemplateHeader {...header} />
-              </div>
-              <div className="space-y-2.5">
-                {/* Initial render */}
               </div>
             </div>
           </div>
         )}
       </div>
-      
-    </>
+    </div>
   );
 }

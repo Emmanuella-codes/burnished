@@ -13,8 +13,8 @@ export default function TemplateSkills({ skills }: TemplateSkillsProps) {
       <div className="flex flex-col gap-y-2">
         {skills.map((skill, idx) => (
           <div key={`skill-${idx}`} className="">
-            <h3 className="text-sm font-semibold">{skill.title ? `${skill.title}:` : ""}</h3>
-            <p className="text-sm">{skill.values.join(", ")}</p>
+            <h3 className="text-[14px] font-semibold">{skill.title ? `${skill.title}:` : ""}</h3>
+            <p className="text-[14px]">{skill.values.join(", ")}</p>
           </div>
         ))}
       </div>

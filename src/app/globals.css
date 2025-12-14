@@ -99,78 +99,67 @@ body {
   border-bottom: 2px solid #333;
 }
 
-.page-content {
-  break-inside: auto;
-  page-break-inside: auto;
-  overflow: visible;
+/* Ensure all text sizes remain fixed regardless of screen size */
+.page * {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+/* Base page styles - always maintain fixed dimensions */
+.page {
+  width: 816px;
+  min-height: 1056px;
+  background: white;
+  position: relative;
 }
 
 /* PRINT STYLES */
 @media print {
+  body {
+    margin: 0;
+    padding: 0;
+  }
+  
   .page {
     page-break-after: always;
     height: 11in;
     width: 8.5in;
+    margin: 0;
+    box-shadow: none;
+    border-radius: 0;
+    transform: none !important; /* Reset any scaling for print */
   }
 
   .break-inside-avoid {
     page-break-inside: avoid;
     break-inside: avoid;
   }
+  
+  /* Hide UI elements during print */
+  button,
+  .no-print {
+    display: none !important;
+  }
 }
 
-/* SCREEN (PREVIEW) STYLES */
+/* SCREEN STYLES */
 @media screen {
   .page {
-    /* Instead of fixed A4 dimensions, use responsive scaling */
-    width: 100%;
-    max-width: 816px; /* cap it to A4 width */
-    min-height: auto;
-    max-height: none;
-    margin: 0 auto;
-    overflow: visible;
-    transform: scale(1);
-    transform-origin: top center;
-  }
-
-  /* Optional: Add subtle shadow for preview pages */
-  .page {
-    box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     border-radius: 0.5rem;
-    background: white;
+    /* Transform will be applied via inline styles from React component */
   }
 }
 
-@media screen and (max-width: 768px) {
+/* Prevent body scroll on mobile - let the container handle it */
+@media screen and (max-width: 850px) {
+  body {
+    overflow-x: hidden;
+  }
+  
+  /* The scaling is handled by transform in the component */
   .page {
-    /* Remove fixed dimensions on mobile */
-    min-height: auto !important;
-    max-height: none !important;
-    height: auto !important;
-    max-width: 100%;
-    border-radius: 0.5rem;
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+    width: 816px;
+    min-height: 1056px;
   }
-
-  .temp-section-title {
-    font-size: 12px;
-    letter-spacing: 0.5px;
-  }
-
-  /* Scale down text slightly on very small screens */
-  @media screen and (max-width: 480px) {
-    .page {
-      font-size: 14px;
-    }
-    
-    .temp-section-title {
-      font-size: 11px;
-    }
-  }
-}
-
-/* Ensure content stays readable on all screen sizes */
-.page * {
-  overflow-wrap: break-word;
-  word-wrap: break-word;
 }
