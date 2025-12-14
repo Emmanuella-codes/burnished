@@ -19,20 +19,20 @@ export default function TemplateAwards({ awards }: TemplateAwardsProp) {
             <div className="flex flex-row justify-between">
               <div className="flex flex-col">
                 <a href={award.link} className="">
-                  <h3 className="text-sm font-semibold">{award.title}</h3>
+                  <h3 className="text-[14px] font-semibold">{award.title}</h3>
                 </a>
-                {award.issuer && <h4 className="text-sm">{award.issuer}</h4>}
+                {award.issuer && <h4 className="text-[14px]">{award.issuer}</h4>}
               </div>
               <div className="">
                 {award.date && (
-                  <span className="text-sm">{award.date}</span>
+                  <span className="text-[14px]">{award.date}</span>
                 )}
               </div>
             </div>
             <div className="pl-4">
               <ul className="list-disc">
                 {award.desc?.map((item, idx) => (
-                  <li key={`awddesc-${idx}`} className="text-sm">{item}</li>
+                  <li key={`awddesc-${idx}`} className="text-[14px]">{item}</li>
                 ))}
               </ul>
             </div>
@@ -40,5 +40,5 @@ export default function TemplateAwards({ awards }: TemplateAwardsProp) {
         ))}
       </div>
     </section>
-  )
-};
+  );
+}

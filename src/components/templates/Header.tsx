@@ -27,8 +27,8 @@ export default function TemplateHeader({
   return (
     <header className="w-full">
       <div className="w-full flex flex-col items-center">
-        <h1 className="text-xl font-semibold">{fullname}</h1>
-        <h2 className="text-lg">{jobTitle}</h2>
+        <h1 className="text-[20px] font-semibold">{fullname}</h1>
+        <h2 className="text-[18px]">{jobTitle}</h2>
       </div>
       <div className="flex flex-row gap-x-3 flex-wrap justify-center">
         {contactInfo
@@ -36,12 +36,12 @@ export default function TemplateHeader({
           .map((item, idx) => (
             <div key={`ci-${idx}`} className="flex flex-row justify-center items-center gap-x-1">
               <Image src={item.icon} alt={item.alt} width={13} height={13} />
-              <a href={item.url} className="text-xs">
+              <a href={item.url} className="text-[12px]">
                 <span>{item.alt === "phone" ? `+${item.value}` : item.value}</span>
               </a>
             </div>
           ))}
       </div>
     </header>
-  )
+  );
 }

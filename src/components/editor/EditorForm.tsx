@@ -62,13 +62,15 @@ export default function EditorForm() {
     ),
     experiences: (
       <>
-        {snap.experiences.map((exp, idx) => (
-          <Experiences
-            key={`ee-${idx}`}
-            exp={{ ...exp, desc: [...exp.desc] }}
-            index={idx}
-          />
-        ))}
+        <div className="flex flex-col gap-y-2">
+          {snap.experiences.map((exp, idx) => (
+            <Experiences
+              key={`ee-${idx}`}
+              exp={{ ...exp, desc: [...exp.desc] }}
+              index={idx}
+            />
+          ))}
+        </div>
         <SectionButtons
           add={() =>
             (resumeStore.experiences = [
@@ -89,13 +91,16 @@ export default function EditorForm() {
     ),
     education: (
       <>
-        {snap.education.map((edn, idx) => (
-          <Education
-            key={`eed-${idx}`}
-            educn={{ ...edn, desc: [...(edn.desc ?? [])] }}
-            index={idx}
-          />
-        ))}
+        <div className="flex flex-col gap-y-2">
+          {snap.education.map((edn, idx) => (
+            <Education
+              key={`eed-${idx}`}
+              educn={{ ...edn, desc: [...(edn.desc ?? [])] }}
+              index={idx}
+            />
+          ))}
+        </div>
+        
         <SectionButtons
           add={() =>
             (resumeStore.education = [
@@ -116,13 +121,15 @@ export default function EditorForm() {
     ),
     projects: (
       <>
-        {snap.projects.map((proj, idx) => (
-          <Projects
-            key={`ep-${idx}`}
-            proj={{ ...proj, desc: [...proj.desc] }}
-            index={idx}
-          />
-        ))}
+        <div className="flex flex-col gap-y-2">
+          {snap.projects.map((proj, idx) => (
+            <Projects
+              key={`ep-${idx}`}
+              proj={{ ...proj, desc: [...proj.desc] }}
+              index={idx}
+            />
+          ))}
+        </div>
         <SectionButtons
           add={() =>
             (resumeStore.projects = [
@@ -141,13 +148,15 @@ export default function EditorForm() {
     ),
     awards: (
       <>
-        {snap.awards?.map((award, idx) => (
-          <Awards
-            key={`ea-${idx}`}
-            award={{ ...award, desc: [...(award.desc ?? [])] }}
-            index={idx}
-          />
-        ))}
+        <div className="flex flex-col gap-y-2">
+          {snap.awards?.map((award, idx) => (
+            <Awards
+              key={`ea-${idx}`}
+              award={{ ...award, desc: [...(award.desc ?? [])] }}
+              index={idx}
+            />
+          ))}
+        </div>
         <SectionButtons
           add={() =>
             (resumeStore.awards = [
@@ -180,7 +189,7 @@ export default function EditorForm() {
           experiences: "💼 Professional Experiences",
           education: "🎓 Education",
           projects: "💻 Projects",
-          awards: "🏆 Awards (optional)",
+          awards: "🏆 Awards / Certifications (optional)",
         };
 
         return (
