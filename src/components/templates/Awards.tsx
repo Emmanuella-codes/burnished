@@ -12,7 +12,6 @@ type TemplateAwardsProp = {
 export default function TemplateAwards({ awards }: TemplateAwardsProp) {
   return (
     <section className="">
-      <h2 className="temp-section-title">Awards</h2>
       <div className="flex flex-col">
         {awards.map((award, idx) => (
           <div key={`award-${idx}`} className="">

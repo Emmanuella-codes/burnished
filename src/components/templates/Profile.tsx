@@ -4,7 +4,6 @@ export default function TemplateProfile({ profileSummary }: { profileSummary?: s
   
   return (
     <section className="">
-      <h2 className="temp-section-title">Profile</h2>
       <p className="text-[14px]">{profileSummary}</p>
     </section>
   )

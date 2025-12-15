@@ -23,23 +23,23 @@ export const burnedStore = proxy<BurnedState>({
 });
 
 // load from localStorage (call this from a useEffect)
-export const hydrateBurnedStore = () => {
-  if (typeof window === "undefined" || burnedStore._hydrated) return;
+// export const hydrateBurnedStore = () => {
+//   if (typeof window === "undefined" || burnedStore._hydrated) return;
 
-  try {
-    const saved = localStorage.getItem("burnedStore");
-    if (saved) {
-      const parsed = JSON.parse(saved);
-      burnedStore.activeTab = parsed.activeTab || "roast";
-      burnedStore.jobDesc = parsed.jobDesc || "";
-      burnedStore.result = parsed.result || null;
-    }
-  } catch (error) {
-    console.error("Failed to load state:", error);
-  } finally {
-    burnedStore._hydrated = true;
-  }
-};
+//   try {
+//     const saved = localStorage.getItem("burnedStore");
+//     if (saved) {
+//       const parsed = JSON.parse(saved);
+//       burnedStore.activeTab = parsed.activeTab || "roast";
+//       burnedStore.jobDesc = parsed.jobDesc || "";
+//       burnedStore.result = parsed.result || null;
+//     }
+//   } catch (error) {
+//     console.error("Failed to load state:", error);
+//   } finally {
+//     burnedStore._hydrated = true;
+//   }
+// };
 
 // subscribe to changes and save to localStorage
 if (typeof window !== "undefined") {

@@ -13,7 +13,6 @@ type EducationTemplateProps = {
 export default function TemplateEducation({ education }: EducationTemplateProps) {
   return (
     <section className="">
-      <h2 className="temp-section-title">Education</h2>
       <div className="">
         {education.map((item, idx) => (
           <div key={`edcn-${idx}`} className="">
