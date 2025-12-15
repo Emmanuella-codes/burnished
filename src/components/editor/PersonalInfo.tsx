@@ -44,7 +44,7 @@ export default function PersonalInfo({ header }: Props) {
               <label className="">Full Name</label>
               <input
                 type="text"
-                className="w-full rounded-md px-2 py-1"
+                className="w-full rounded-md px-2 py-1 border border-gray-700"
                 value={header.fullname}
                 ref={setRef('fullname')}
                 onChange={(e) => updateField("fullname", e.target.value)} 
@@ -54,7 +54,7 @@ export default function PersonalInfo({ header }: Props) {
               <label className="">Professional Title</label>
               <input
                 type="text"
-                className="w-full rounded-md px-2 py-1"
+                className="w-full rounded-md px-2 py-1 border border-gray-700"
                 value={header.jobTitle}
                 ref={setRef('jobTitle')}
                 onChange={(e) => updateField("jobTitle", e.target.value)} 
@@ -64,7 +64,7 @@ export default function PersonalInfo({ header }: Props) {
               <label className="">Location</label>
               <input
                 type="text"
-                className="w-full rounded-md px-2 py-1"
+                className="w-full rounded-md px-2 py-1 border border-gray-700"
                 value={header.location ?? ""}
                 ref={setRef('location')}
                 onChange={(e) => updateField("location", e.target.value)} 
@@ -75,7 +75,7 @@ export default function PersonalInfo({ header }: Props) {
                 <label className="">Email</label>
                 <input
                   type="text"
-                  className="w-full rounded-md px-2 py-1"
+                  className="w-full rounded-md px-2 py-1 border border-gray-700"
                   value={header.email}
                   ref={setRef('email')}
                   onChange={(e) => updateField("email", e.target.value)} 
@@ -85,7 +85,7 @@ export default function PersonalInfo({ header }: Props) {
                 <label className="">Phone</label>
                 <input
                   type="text"
-                  className="w-full rounded-md px-2 py-1"
+                  className="w-full rounded-md px-2 py-1 border border-gray-700"
                   value={header.phone ?? ""}
                   ref={setRef('phone')}
                   onChange={(e) => updateField("phone", e.target.value)} 
@@ -98,7 +98,7 @@ export default function PersonalInfo({ header }: Props) {
                   <label>GitHub</label>
                   <input
                     type="text"
-                    className="w-full rounded-md px-2 py-1"
+                    className="w-full rounded-md px-2 py-1 border border-gray-700"
                     value={header.github ?? ""}
                     ref={setRef('github')}
                     onChange={(e) => updateField("github", e.target.value)} 
@@ -108,7 +108,7 @@ export default function PersonalInfo({ header }: Props) {
                   <label>GitHub URL</label>
                   <input
                     type="text"
-                    className="w-full rounded-md px-2 py-1"
+                    className="w-full rounded-md px-2 py-1 border border-gray-700"
                     placeholder="https://..."
                     value={header.githubUrl ?? ""}
                     ref={setRef('githubUrl')}
@@ -123,7 +123,7 @@ export default function PersonalInfo({ header }: Props) {
                   <label>LinkedIn</label>
                   <input
                     type="text"
-                    className="w-full rounded-md px-2 py-1"
+                    className="w-full rounded-md px-2 py-1 border border-gray-700"
                     value={header.linkedin ?? ""}
                     ref={setRef('linkedin')}
                     onChange={(e) => updateField("linkedin", e.target.value)} 
@@ -133,7 +133,7 @@ export default function PersonalInfo({ header }: Props) {
                   <label>LinkedIn URL</label>
                   <input
                     type="text"
-                    className="w-full rounded-md px-2 py-1"
+                    className="w-full rounded-md px-2 py-1 border border-gray-700"
                     placeholder="https://..."
                     value={header.linkedinUrl ?? ""}
                     ref={setRef('linkedinUrl')}
@@ -148,7 +148,7 @@ export default function PersonalInfo({ header }: Props) {
                   <label>Website</label>
                   <input
                     type="text"
-                    className="w-full rounded-md px-2 py-1"
+                    className="w-full rounded-md px-2 py-1 border border-gray-700"
                     value={header.website ?? ""}
                     ref={setRef('website')}
                     onChange={(e) => updateField("website", e.target.value)} 
@@ -158,7 +158,7 @@ export default function PersonalInfo({ header }: Props) {
                   <label>Website URL</label>
                   <input
                     type="text"
-                    className="w-full rounded-md px-2 py-1"
+                    className="w-full rounded-md px-2 py-1 border border-gray-700"
                     placeholder="https://..."
                     value={header.websiteUrl ?? ""}
                     ref={setRef('websiteUrl')}

@@ -46,7 +46,7 @@ export default function Projects({ proj, index }: Props) {
               <input
                 ref={setRef('title')}
                 type="text"
-                className="rounded-md px-2 py-1"
+                className="rounded-md px-2 py-1 border border-gray-700"
                 value={proj.title}
                 onChange={(e) => updateField("title", e.target.value)} 
               />
@@ -56,7 +56,7 @@ export default function Projects({ proj, index }: Props) {
               <input
                 ref={setRef('link')}
                 type="text"
-                className="rounded-md px-2 py-1"
+                className="rounded-md px-2 py-1 border border-gray-700"
                 value={proj.link}
                 onChange={(e) => updateField("link", e.target.value)}
               />
@@ -66,7 +66,7 @@ export default function Projects({ proj, index }: Props) {
               <input
                 ref={setRef('subTitle')}
                 type="text"
-                className="rounded-md px-2 py-1"
+                className="rounded-md px-2 py-1 border border-gray-700"
                 value={proj.subTitle}
                 onChange={(e) => updateField("subTitle", e.target.value)} 
               />
@@ -82,7 +82,7 @@ export default function Projects({ proj, index }: Props) {
                       type="text"
                       value={p}
                       onChange={(e) => updateDesc(idx, e.target.value)}
-                      className="rounded-md px-2 py-1 w-full"
+                      className="rounded-md px-2 py-1 w-full border border-gray-700"
                     />
                     <button
                       type="button"

@@ -63,7 +63,7 @@ export default function Awards({ award, index }: Props) {
               <input
                 ref={setRef('title')}
                 type="text"
-                className="rounded-md px-2 py-1"
+                className="rounded-md px-2 py-1 border border-gray-700"
                 value={award.title}
                 onChange={(e) => updateField("title", e.target.value)}
               />
@@ -73,7 +73,7 @@ export default function Awards({ award, index }: Props) {
               <input
                 ref={setRef('issuer')}
                 type="text"
-                className="rounded-md px-2 py-1"
+                className="rounded-md px-2 py-1 border border-gray-700"
                 value={award.issuer || ""}
                 onChange={(e) => updateField("issuer", e.target.value)}
               />
@@ -83,7 +83,7 @@ export default function Awards({ award, index }: Props) {
                 <label htmlFor="">Date</label>
                 <input
                   type="month" 
-                  className="w-44 rounded-md px-2 py-1"
+                  className="w-44 rounded-md px-2 py-1 border border-gray-700"
                   value={dateField.getInputValue()}
                   onChange={(e) => dateField.handleDateChange(e.target.value)} 
                 />
@@ -93,7 +93,7 @@ export default function Awards({ award, index }: Props) {
                 <input
                   ref={setRef('link')}
                   type="text"
-                  className="rounded-md px-2 py-1"
+                  className="rounded-md px-2 py-1 border border-gray-700"
                   value={award.link || ""}
                   onChange={(e) => updateField("link", e.target.value)}
                   placeholder="https://..."
@@ -111,7 +111,7 @@ export default function Awards({ award, index }: Props) {
                       type="text"
                       value={a}
                       onChange={(e) => updateDesc(idx, e.target.value)}
-                      className="rounded-md px-2 py-1 w-full"
+                      className="rounded-md px-2 py-1 w-full border border-gray-700"
                     />
                     <button
                       type="button"

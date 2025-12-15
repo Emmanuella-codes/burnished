@@ -63,7 +63,7 @@ export default function Education({ educn, index }: Props) {
               <input 
                 ref={setRef('degree')}
                 type="text" 
-                className="rounded-md px-2 py-1"
+                className="rounded-md px-2 py-1 border border-gray-700"
                 value={educn.degree}
                 onChange={(e) => updateField("degree", e.target.value)}
               />
@@ -73,7 +73,7 @@ export default function Education({ educn, index }: Props) {
               <input
                 ref={setRef('institution')} 
                 type="text" 
-                className="rounded-md px-2 py-1"
+                className="rounded-md px-2 py-1 border border-gray-700"
                 value={educn.institution}
                 onChange={(e) => updateField("institution", e.target.value)}
               />
@@ -83,7 +83,7 @@ export default function Education({ educn, index }: Props) {
                 <label htmlFor="">Start Date</label>
                 <input 
                   type="month" 
-                  className="w-full rounded-md px-2 py-1"
+                  className="w-full rounded-md px-2 py-1 border border-gray-700"
                   max={maxDate}
                   value={dateFields.getInputValue(educn.startDate)}
                   onChange={(e) => updateField("startDate", e.target.value)}
@@ -94,7 +94,7 @@ export default function Education({ educn, index }: Props) {
                 <div className="flex flex-col gap-y-1">
                   <input 
                     type="month" 
-                    className="w-full rounded-md px-2 py-1"
+                    className="w-full rounded-md px-2 py-1 border border-gray-700"
                     max={maxDate}
                     min={dateFields.getInputValue(educn.startDate)}
                     value={dateFields.getInputValue(educn.endDate)}
@@ -107,7 +107,7 @@ export default function Education({ educn, index }: Props) {
                       onChange={dateFields.handlePresentToggle}
                       className="cursor-pointer"
                     />
-                    <span>Currently working here</span>
+                    <span>Currently schooling here</span>
                   </label>
                 </div>
               </div>
@@ -116,7 +116,7 @@ export default function Education({ educn, index }: Props) {
                 <input
                   ref={setRef('location')}
                   type="text" 
-                  className="w-full rounded-md px-2 py-1"
+                  className="w-full rounded-md px-2 py-1 border border-gray-700"
                   value={educn.location || ""}
                   onChange={(e) => updateField("location", e.target.value)}
                 />
@@ -133,7 +133,7 @@ export default function Education({ educn, index }: Props) {
                       type="text"
                       value={ed}
                       onChange={(e) => updateDesc(idx, e.target.value)}
-                      className="rounded-md px-2 py-1 w-full"
+                      className="rounded-md px-2 py-1 w-full border border-gray-700"
                     />
                     <button
                       type="button"
@@ -156,7 +156,6 @@ export default function Education({ educn, index }: Props) {
               
             </div>
           </div>
-          
         </form>
       </div>
     </section>

@@ -8,7 +8,7 @@ type TemplateExperienceProps = {
   desc: string[];
 };
 
-export default function TemplateExperience({ experiences }: {experiences: TemplateExperienceProps}) {
+export default function TemplateExperience({ experiences }: { experiences: TemplateExperienceProps }) {
   return (
     <section className="">
       <div className="flex flex-col gap-y-2">

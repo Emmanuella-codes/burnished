@@ -45,7 +45,7 @@ export default function Skills({ index }: SkillProps) {
               <label htmlFor="" className="">Skill</label>
               <input 
                 type="text" 
-                className="w-full rounded-md px-2 py-1"
+                className="w-full rounded-md px-2 py-1 border border-gray-700"
                 value={skill.title}
                 ref={setRef('title')}
                 onChange={(e) => updateTitle(e.target.value)}
@@ -54,7 +54,7 @@ export default function Skills({ index }: SkillProps) {
             <div className="flex flex-col">
               <label htmlFor="" className="">Sub-skills</label>
               <textarea
-                className="rounded-md px-2 py-1 lg:h-20 resize-none"
+                className="rounded-md px-2 py-1 lg:h-20 resize-none border border-gray-700"
                 value={rawValue}
                 ref={setRef('values')}
                 onChange={(e) => updateValues(e.target.value)}
