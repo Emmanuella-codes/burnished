@@ -38,7 +38,7 @@ export default function ResumeEditor() {
         </div>
       </div>
       <div 
-        className="flex flex-row xl:gap-x-8 lg:w-[96%] border border-red-600"
+        className="flex flex-row xl:gap-x-8 lg:w-[96%]"
         style={{ height: 'calc(100vh - 200px)' }}
       >
         <div className="w-full lg:w-1/2 shrink-0 lg:pr-4 h-full overflow-y-auto no-scrollbar border">
