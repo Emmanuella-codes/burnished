@@ -5,10 +5,12 @@ import EditorForm from "./EditorForm";
 import Template from "../templates";
 import { ArrowLeft, Download } from "lucide-react";
 import TemplateDrawer from "./components/TemplateDrawer";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
+import { HandleDownloadPDF } from "@/utils/exportAsPDF";
 
 export default function ResumeEditor() {
+  const previewRef = useRef<HTMLDivElement | null>(null);
   const snap = useSnapshot(resumeStore);
   const router = useRouter();
 
@@ -39,11 +41,12 @@ export default function ResumeEditor() {
             <h2 className="lg:text-xl font-bold">Resume Preview</h2>
             <button
               className="flex flex-row items-center gap-x-1 text-sm border border-slate-400 px-2 rounded-sm"
+              onClick={() => HandleDownloadPDF(previewRef, snap.header)}
             >
               <Download size={15} /> Export as PDF
             </button>
           </div>
-          <section className="mb-3 overflow-y-auto no-scrollbar flex-1">
+          <section ref={previewRef} className="mb-3 overflow-y-auto no-scrollbar flex-1">
             <Template 
               header={snap.header}
               profileSummary={snap.profileSummary}
