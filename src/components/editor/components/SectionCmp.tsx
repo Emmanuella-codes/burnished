@@ -1,74 +1,64 @@
 "use client";
 import { GripVertical, Maximize2, Minimize2 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 
 type SectionProps = {
   title: string;
+  expanded: boolean;
+  onToggle: () => void;
+  locked?: boolean;
+  dragHandleProps?: any;
   children: React.ReactNode;
-  draggable?: boolean;
-  onDragStart?: (e: React.DragEvent) => void;
-  onDragEnd?: (e: React.DragEvent) => void;
-  onDragOver?: (e: React.DragEvent) => void;
-  onDrop?: (e: React.DragEvent) => void;
-  isDragging?: boolean;
-  isHovered?: boolean;
 };
 
 export function Section({
   title,
+  expanded,
+  onToggle,
+  locked,
+  dragHandleProps,
   children,
-  draggable = false,
-  onDragStart,
-  onDragEnd,
-  onDragOver,
-  onDrop,
-  isDragging,
-  isHovered,
 }: SectionProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const toggleExpand = () => setIsExpanded((prev) => !prev);
   
   return (
-    <div
-      className={`flex flex-col gap-y-2 lg:gap-y-4 rounded-md transition-all duration-150 ${
-        isDragging ? "opacity-50 border-dashed border-blue-400" : ""
-      } ${isHovered ? "bg-blue-50 border border-blue-300" : "border-transparent"}`} 
-    >
-      <div 
-        className={`flex flex-row justify-between items-center border border-slate-400 rounded-sm p-2 ${
-          draggable ? "cursor-grab active:cursor-move" : "cursor-default"
-        }`}
-        draggable={draggable}
-        onDragStart={onDragStart}
-        onDragEnd={onDragEnd}
-        onDragOver={onDragOver}
-        onDrop={onDrop}
-      >
-        <div className="flex flex-row items-center gap-2">
-          {draggable && (
-            <GripVertical
-              size={16}
-              className="text-gray-500 cursor-grab active:cursor-grabbing"
-            />
+    <div className="bg-white rounded-md shadow-sm overflow-hidden">
+      <div className="flex items-center justify-between p-4">
+        <div className="flex items-center gap-x-2">
+          {!locked && (
+            <button
+              {...dragHandleProps}
+              className="cursor-grab active:cursor-grabbing touch-none"
+              aria-label="Reorder section"
+            >
+              ☰
+            </button>
           )}
-          <h2 className="md:text-xl text-sm font-bold">{title}</h2>
+
+          <h3 className="font-semibold">{title}</h3>
         </div>
-        <button
-          type="button"
-          onClick={(e) => {
-            e.stopPropagation(); // prevent interfering with drag
-            toggleExpand();
-          }}
-          title={isExpanded ? "Collapse section" : "Expand section"}
-        >
-          {isExpanded ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
+
+        <button onClick={onToggle} className="text-lg">
+          {expanded ? "−" : "+"}
         </button>
       </div>
-      {isExpanded && (
-        <div className="animate-fadeIn">
-          {children}
-        </div>
-      )}
+
+      <AnimatePresence initial={false}>
+        {expanded && (
+          <motion.div
+            key="content"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: "easeInOut" }}
+            className="overflow-hidden border-t"
+          >
+            <div className="p-4">{children}</div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

@@ -10,29 +10,36 @@ import { useSnapshot } from "valtio";
 import PersonalInfo from "./PersonalInfo";
 import { JSX, useState } from "react";
 import { Section, SectionButtons } from "./components/SectionCmp";
+import {
+  DndContext,
+  closestCenter,
+  PointerSensor,
+  TouchSensor,
+  KeyboardSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+  arrayMove,
+} from "@dnd-kit/sortable";
+import SortableSection from "./components/SortableSection";
 
 export default function EditorForm() {
   const snap = useSnapshot(resumeStore);
-  const [dragging, setDragging] = useState<string | null>(null);
-  const [hovered, setHovered] = useState<string | null>(null);
+  const [expandedSection, setExpandedSection] = useState<string | null>(null);
 
-  const handleDrop = (targetSection: string) => {
-    if (!dragging || dragging === targetSection) return;
-
-    if (["header", "profileSummary"].includes(dragging)) return;
-    if (["header", "profileSummary"].includes(targetSection)) return;
-
-    const newOrder = [...snap.sectionOrder];
-    const fromIndex = newOrder.indexOf(dragging);
-    const toIndex = newOrder.indexOf(targetSection);
-
-    newOrder.splice(fromIndex, 1);
-    newOrder.splice(toIndex, 0, dragging);
-
-    resumeStore.sectionOrder = newOrder;
-    setDragging(null);
-    setHovered(null);
-  };
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 250, // 👈 long press
+        tolerance: 5,
+      },
+    }),
+    useSensor(KeyboardSensor)
+  );
 
   const isLocked = (key: string) =>
     key === "header" || key === "profileSummary";
@@ -176,13 +183,36 @@ export default function EditorForm() {
     ),
   };
 
-  return (
-    <div className="w-full flex flex-col gap-y-4 lg:gap-y-9 px-2 py-4 bg-slate-300/50 lg:px-5 lg:py-6 rounded-sm">
-      {snap.sectionOrder.map((key) => {
-        const locked = isLocked(key);
-        const section = sectionComponents[key];
+  const handleDragEnd = (event: any) => {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
 
-        const titles: Record<string, string> = {
+    if (isLocked(active.id) || isLocked(over.id)) return;
+
+    const oldIndex = snap.sectionOrder.indexOf(active.id);
+    const newIndex = snap.sectionOrder.indexOf(over.id);
+
+    resumeStore.sectionOrder = arrayMove(
+      [...snap.sectionOrder],
+      oldIndex,
+      newIndex
+    );
+  };
+
+  return (
+    <div className="w-full flex flex-col gap-y-4 px-2 py-4 bg-slate-300/50 rounded-sm">
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
+      >
+        <SortableContext
+          items={[...snap.sectionOrder]}
+          strategy={verticalListSortingStrategy}
+        >
+          {snap.sectionOrder.map((key) => {
+            const locked = isLocked(key);
+            const titles: Record<string, string> = {
           header: "👤 Personal Information",
           profileSummary: "📝 Profile (optional)",
           skills: "⚡ Skills",
@@ -192,25 +222,32 @@ export default function EditorForm() {
           awards: "🏆 Awards / Certifications (optional)",
         };
 
-        return (
-          <Section
-            key={key}
-            title={titles[key]}
-            draggable={!locked}
-            onDragStart={() => !locked && setDragging(key)}
-            onDragEnd={() => setDragging(null)}
-            onDragOver={(e) => {
-              e.preventDefault();
-              if (!locked) setHovered(key);
-            }}
-            onDrop={() => handleDrop(key)}
-            isDragging={dragging === key}
-            isHovered={hovered === key && dragging !== key}
-          >
-            {section}
-          </Section>
-        );
-      })}
+            return (
+              <SortableSection
+                key={key}
+                id={key}
+                disabled={locked}
+              >
+                {({ attributes, listeners }) => (
+                  <Section
+                    title={titles[key]}
+                    locked={locked}
+                    expanded={expandedSection === key}
+                    onToggle={() =>
+                      setExpandedSection(
+                        expandedSection === key ? null : key
+                      )
+                    }
+                    dragHandleProps={!locked ? { ...attributes, ...listeners } : undefined}
+                  >
+                    {sectionComponents[key]}
+                  </Section>
+                )}
+              </SortableSection>
+            );
+          })}
+        </SortableContext>
+      </DndContext>
     </div>
   );
 }

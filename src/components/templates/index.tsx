@@ -294,6 +294,7 @@ export default function Template({
           pages.map((pageSections, pageIndex) => (
             <div 
               key={`page-${pageIndex}`}
+              data-page={pageIndex}
               style={{
                 width: `${PAGE_WIDTH}px`,
                 height: `${PAGE_HEIGHT}px`,
