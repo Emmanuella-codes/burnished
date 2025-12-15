@@ -5,8 +5,13 @@ import jsPDF from "jspdf";
 const PAGE_WIDTH = 816;
 const PAGE_HEIGHT = 1056; // ~11 inches at 96 DPI
 
-export const HandleDownloadPDF = async (containerRef: React.RefObject<HTMLDivElement | null>, header: Header) => {
+export const HandleDownloadPDF = async (
+  containerRef: React.RefObject<HTMLDivElement | null>, 
+  header: Header,
+  setIsgenerating: React.Dispatch<React.SetStateAction<boolean>>
+) => {
   if (!containerRef.current) return;
+  setIsgenerating(true)
 
   try {
     const pageElements = containerRef.current?.querySelectorAll("[data-page]");
@@ -44,9 +49,11 @@ export const HandleDownloadPDF = async (containerRef: React.RefObject<HTMLDivEle
       pdf.addImage(image, 'PNG', 0, 0, PAGE_WIDTH, PAGE_HEIGHT);
     }
 
-    pdf.save(`${header.fullname.replace(/\s+/g, '_')}_Resume.pdf`);
+    pdf.save(`${header.fullname.replace(/\s+/g, '_')}${header.jobTitle.replace(/\s+/g, '_')}_Resume.pdf`);
   } catch (error) {
       console.error('Error generating PDF:', error);
       alert('Failed to generate PDF. Please try again.');
+  } finally {
+      setIsgenerating(false);
   }
 };
