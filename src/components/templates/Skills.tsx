@@ -9,7 +9,6 @@ type TemplateSkillsProps = {
 export default function TemplateSkills({ skills }: TemplateSkillsProps) {
   return (
     <section className="">
-      <h2 className="temp-section-title">Skills</h2>
       <div className="flex flex-col gap-y-2">
         {skills.map((skill, idx) => (
           <div key={`skill-${idx}`} className="">

@@ -8,11 +8,23 @@ import TemplateProject from "./Project";
 import TemplateAwards from "./Awards";
 import TemplateHeader from "./Header";
 import { useEffect, useRef, useState } from "react";
+import React from "react";
+
+interface PaginationItem {
+  type: 'section-header' | 'content';
+  sectionName?: string;
+  content: React.ReactNode;
+  key: string;
+}
 
 const PAGE_WIDTH = 816;
 const PAGE_HEIGHT = 1056; // ~11 inches at 96 DPI
 const HEADER_HEIGHT = 120; // Approximate header height
 const PADDING = 48; 
+
+function TemplateSectionHeader({ title }: { title: string }) {
+  return <h2 className="temp-section-title font-bold text-lg uppercase tracking-wide border-b border-gray-400 pb-1 mb-2">{title}</h2>;
+}
 
 export default function Template({
   header,
@@ -49,54 +61,106 @@ export default function Template({
   useEffect(() => {
     if (!measureRef.current) return;
 
-    const allSections: React.ReactNode[] = [];
+    const allItems: PaginationItem[] = [];
     
     sectionOrder.forEach((sect) => {
       switch (sect) {
         case "profileSummary":
           if (profileSummary) {
-            allSections.push(
-              <div key="profile" data-section="profile">
-                <TemplateProfile profileSummary={profileSummary} />
-              </div>
-            );
+            allItems.push({
+              type: "section-header",
+              sectionName: "Profile Summary",
+              content: <TemplateSectionHeader title="Profile" />,
+              key: "profile-header"
+            });
+            allItems.push({
+              type: "content",
+              content: <TemplateProfile profileSummary={profileSummary} />,
+              key: "profile-content"
+            });
           }
           break;
         case "skills":
-          allSections.push(
-            <div key="skills" data-section="skills">
-              <TemplateSkills skills={skills} />
-            </div>
-          );
+          if (skills && skills.length > 0) {
+            allItems.push({
+              type: "section-header",
+              sectionName: "Skills",
+              content: <TemplateSectionHeader title="Skills" />,
+              key: "skills-header"
+            });
+            allItems.push({
+              type: "content",
+              content: <TemplateSkills skills={skills} />,
+              key: "skills-content"
+            });
+          }
           break;
         case "experiences":
-          allSections.push(
-            <div key="exp" data-section="exp">
-              <TemplateExperience experiences={experiences} />
-            </div>
-          );
+          if (experiences && experiences.length > 0) {
+            allItems.push({
+              type: "section-header",
+              sectionName: "Professional Experience",
+              content: <TemplateSectionHeader title="Professional Experience" />,
+              key: 'exp-header',
+            });
+            experiences.forEach((exp, idx) => {
+              allItems.push({
+                type: "content",
+                content: <TemplateExperience experiences={[exp]} />,
+                key: `exp-content-${idx}`,
+              });
+            });
+          }
           break;
         case "education":
-          allSections.push(
-            <div key="edu" data-section="edu">
-              <TemplateEducation education={education} />
-            </div>
-          );
+          if (education && education.length > 0) {
+            allItems.push({
+              type: "section-header",
+              sectionName: "Education",
+              content: <TemplateSectionHeader title="Education" />,
+              key: 'edu-header',
+            });
+            education.forEach((edu, idx) => {
+              allItems.push({
+                type: 'content',
+                content: <TemplateEducation education={[edu]} />,
+                key: `edu-content-${idx}`,
+              });
+            });
+          }
           break;
         case "projects":
-          allSections.push(
-            <div key="proj" data-section="proj">
-              <TemplateProject projects={projects} />
-            </div>
-          );
+          if (projects && projects.length > 0) {
+            allItems.push({
+              type: "section-header",
+              sectionName: "Projects",
+              content: <TemplateSectionHeader title="Projects" />,
+              key: 'proj-header',
+            });
+            projects.forEach((proj, idx) => {
+              allItems.push({
+                type: "content",
+                content: <TemplateProject projects={[proj]} />,
+                key: `proj-content-${idx}`,
+              });
+            });
+          }
           break;
         case "awards":
           if (awards && awards.length > 0) {
-            allSections.push(
-              <div key="awards" data-section="awards">
-                <TemplateAwards awards={awards} />
-              </div>
-            );
+            allItems.push({
+              type: "section-header",
+              sectionName: "Awards",
+              content: <TemplateSectionHeader title="Awards" />,
+              key: "awards-header",
+            });
+            awards.forEach((award, idx) => {
+              allItems.push({
+                type: "content",
+                content: <TemplateAwards awards={[award]} />,
+                key: `awards-content-${idx}`,
+              });
+            })
           }
           break;
       }
@@ -104,30 +168,38 @@ export default function Template({
 
     // Measure sections after render
     setTimeout(() => {
-      const sectionElements = measureRef.current?.querySelectorAll('[data-section]');
+      const sectionElements = measureRef.current?.querySelectorAll('[data-item]');
       if (!sectionElements) return;
 
       const paginatedPages: React.ReactNode[][] = [];
       let currentPage: React.ReactNode[] = [];
       let currentHeight = HEADER_HEIGHT; // First page has header
+      let currentSection: string | null = null;
       const maxHeight = PAGE_HEIGHT - (PADDING * 2);
 
-      allSections.forEach((section, idx) => {
+      allItems.forEach((item, idx) => {
         const element = sectionElements[idx] as HTMLElement;
-        const sectionHeight = element.offsetHeight + 10; // Include gap
+        const itemHeight = element.offsetHeight + 10; // Include gap
 
-        // Check if section fits on current page
-        if (currentHeight + sectionHeight > maxHeight) {
-          // Save current page and start new one
+        // Check if this is a new section header
+        if (item.type === 'section-header') {
+          currentSection = item.sectionName || null;
+        }
+
+        // Check if item fits on current page
+        if (currentHeight + itemHeight > maxHeight) {
+          // Save current page
           if (currentPage.length > 0) {
             paginatedPages.push([...currentPage]);
           }
-          currentPage = [section];
-          currentHeight = sectionHeight;
-        } else {
-          currentPage.push(section);
-          currentHeight += sectionHeight;
+
+          // Start new page
+          currentPage = [];
+          currentHeight = 0;90
         }
+
+        currentPage.push(<div key={item.key}>{item.content}</div>);
+        currentHeight += itemHeight;
       });
 
       // Add last page
@@ -138,7 +210,7 @@ export default function Template({
       setPages(paginatedPages);
     }, 100); // Small delay to ensure render
 
-  }, [header, profileSummary, skills, experiences, education, projects, awards, sectionOrder]);
+  }, [sectionOrder, profileSummary, skills, experiences, education, projects, awards]);
   
   return (
     <div ref={containerRef} className="w-full">
@@ -153,39 +225,61 @@ export default function Template({
             switch (sect) {
               case "profileSummary":
                 return profileSummary ? (
-                  <div key="profile" data-section="profile">
-                    <TemplateProfile profileSummary={profileSummary} />
-                  </div>
+                  <React.Fragment key="profile">
+                    <div data-item><TemplateSectionHeader title="Profile" /></div>
+                    <div data-item><TemplateProfile profileSummary={profileSummary} /></div>
+                  </React.Fragment>
                 ) : null;
               case "skills":
-                return (
-                  <div key="skills" data-section="skills">
-                    <TemplateSkills skills={skills} />
-                  </div>
-                );
+                return skills && skills.length > 0 ? (
+                  <React.Fragment key="skills">
+                    <div data-item><TemplateSectionHeader title="Skills" /></div>
+                    <div data-item><TemplateSkills skills={skills} /></div>
+                  </React.Fragment>
+                ) : null;
               case "experiences":
-                return (
-                  <div key="exp" data-section="exp">
-                    <TemplateExperience experiences={experiences} />
-                  </div>
-                );
+                return experiences && experiences.length > 0 ? (
+                  <React.Fragment key="exp">
+                    <div data-item><TemplateSectionHeader title="Professional Experience" /></div>
+                    {experiences.map((exp, idx) => (
+                      <div key={`exp-${idx}`} data-item>
+                        <TemplateExperience experiences={[exp]} />
+                      </div>
+                    ))}
+                  </React.Fragment>
+                ) : null;
               case "education":
-                return (
-                  <div key="edu" data-section="edu">
-                    <TemplateEducation education={education} />
-                  </div>
-                );
+                return education && education.length > 0 ? (
+                  <React.Fragment key="edu">
+                    <div data-item><TemplateSectionHeader title="Education" /></div>
+                    {education.map((edu, idx) => (
+                      <div key={`edu-${idx}`} data-item>
+                        <TemplateEducation education={[edu]} />
+                      </div>
+                    ))}
+                  </React.Fragment>
+                ) : null;
               case "projects":
-                return (
-                  <div key="proj" data-section="proj">
-                    <TemplateProject projects={projects} />
-                  </div>
-                );
+                return projects && projects.length > 0 ? (
+                  <React.Fragment key="proj">
+                    <div data-item><TemplateSectionHeader title="Projects" /></div>
+                    {projects.map((proj, idx) => (
+                      <div key={`proj-${idx}`} data-item>
+                        <TemplateProject projects={[proj]} />
+                      </div>
+                    ))}
+                  </React.Fragment>
+                ) : null;
               case "awards":
                 return awards && awards.length > 0 ? (
-                  <div key="awards" data-section="awards">
-                    <TemplateAwards awards={awards} />
-                  </div>
+                  <React.Fragment key="awards">
+                    <div data-item><TemplateSectionHeader title="Awards" /></div>
+                    {awards.map((award, idx) => (
+                      <div key={`award-${idx}`} data-item>
+                        <TemplateAwards awards={[award]} />
+                      </div>
+                    ))}
+                  </React.Fragment>
                 ) : null;
               default:
                 return null;
@@ -213,19 +307,7 @@ export default function Template({
                 {/* Header only on first page */}
                 {pageIndex === 0 && (
                   <div className="mb-4">
-                    <TemplateHeader 
-                      fullname={header.fullname}
-                      jobTitle={header.jobTitle}
-                      location={header.location}
-                      email={header.email}
-                      phone={header.phone}
-                      linkedin={header.linkedin}
-                      linkedinUrl={header.linkedinUrl}
-                      github={header.github}
-                      githubUrl={header.githubUrl}
-                      website={header.website}
-                      websiteUrl={header.websiteUrl}
-                    />
+                    <TemplateHeader {...header} />
                   </div>
                 )}
                 <div className="flex-1 space-y-2.5">

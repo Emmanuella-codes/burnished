@@ -11,7 +11,6 @@ type TemplateProjectProps = {
 export default function TemplateProject({ projects }: TemplateProjectProps) {
   return (
     <section>
-      <h2 className="temp-section-title">Projects</h2>
       <div className="flex flex-col">
         {projects.map((proj, idx) => (
           <div key={`proj-${idx}`} className="">

@@ -13,7 +13,6 @@ type TemplateExperienceProps = {
 export default function TemplateExperience({ experiences }: TemplateExperienceProps) {
   return (
     <section className="">
-      <h2 className="temp-section-title">Professional Experience</h2>
       <div className="flex flex-col gap-y-2">
         {experiences.map((exp, idx) => (
           <div key={`exp-${idx}`} className="">
