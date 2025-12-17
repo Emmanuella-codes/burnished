@@ -49,7 +49,7 @@ export const HandleDownloadPDF = async (
       pdf.addImage(image, 'PNG', 0, 0, PAGE_WIDTH, PAGE_HEIGHT);
     }
 
-    pdf.save(`${header.fullname.replace(/\s+/g, '_')}${header.jobTitle.replace(/\s+/g, '_')}_Resume.pdf`);
+    pdf.save(`${header.fullname.replace(/\s+/g, '_')}_${header.jobTitle.replace(/\s+/g, '_')}_Resume.pdf`);
   } catch (error) {
       console.error('Error generating PDF:', error);
       alert('Failed to generate PDF. Please try again.');

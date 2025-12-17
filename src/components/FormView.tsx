@@ -117,14 +117,13 @@ export default function FormView() {
 
   return(
     <div className="w-full flex items-center justify-center">
-      <div className="bg-indigo-200 py-4 px-2 rounded-md w-full">
+      <div className="bg-[#dfd8d8] py-4 px-2 rounded-md w-full">
         <div className="w-full">
           {/* form */}
           <div className="mt-5">
             <form onSubmit={handleSubmit}>
               <div className="flex flex-col gap-y-3 md:px-3">
                 <div className="flex flex-col gap-y-3">
-                  {/* <label className="font-semibold">Upload your CV/Resume</label> */}
                   <div 
                     onDragOver={handleDragOver}
                     onDragLeave={handleDragLeave}
@@ -132,8 +131,8 @@ export default function FormView() {
                     className={`border-2 border-dashed rounded-md flex flex-col lg:py-6 transition
                       ${
                         isDragging
-                          ? "border-indigo-600 bg-indigo-100"
-                          : "border-indigo-300"
+                          ? "border-[#cfb2b2] bg-[#cfbebe]"
+                          : "border-[#cebcbc]"
                       }`}
                   >
                     <input
@@ -170,7 +169,7 @@ export default function FormView() {
                   </div>
                 )}
 
-                <Button type="submit" className="w-[140px] bg-indigo-700" disabled={snap.isLoading}>
+                <Button type="submit" className="w-[140px] bg-[#CF1259]" disabled={snap.isLoading}>
                   {snap.isLoading
                     ? "Processing..."
                     : snap.activeTab === "roast"

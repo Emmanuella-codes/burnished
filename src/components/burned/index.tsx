@@ -17,9 +17,9 @@ export default function BurnedCmp() {
         </div>
         <div className="w-full flex flex-row justify-between gap-2 flex-wrap lg:flex-nowrap">
           {["roast", "format", "letter"].map((tab) => (
-            <Button
+            <button
               key={tab}
-              className={`${snap.activeTab === tab ? "font-bold bg-slate-900" : "bg-slate-600"} w-full lg:w-1/3`}
+              className={`${snap.activeTab === tab ? "font-bold bg-[#574144]" : "bg-[#7c585c]"} w-full lg:w-1/3 py-1.5 rounded-lg text-white text-base`}
               onClick={() => burnedActions.setActiveTab(tab as any)}
             >
               {tab === "roast"
@@ -27,7 +27,7 @@ export default function BurnedCmp() {
                 : tab === "format"
                 ? "✨ Optimize"
                 : "📝 Cover Letter"}
-            </Button>
+            </button>
           ))}
         </div>
       </div>
