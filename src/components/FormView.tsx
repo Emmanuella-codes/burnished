@@ -13,12 +13,48 @@ export default function FormView() {
   const router = useRouter()
   const snap = useSnapshot(burnedStore);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
   const { toast } = useToast();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
     setSelectedFile(file);
   };
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = () => {
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(false);
+
+    const file = e.dataTransfer.files?.[0];
+    if (!file) return;
+
+    // Optional: validate file type
+    const allowed = [
+      "application/pdf",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    ];
+
+    if (!allowed.includes(file.type)) {
+      toast({
+        title: "Invalid file",
+        description: "Only PDF or DOCX files are allowed",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setSelectedFile(file);
+  };
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -89,7 +125,17 @@ export default function FormView() {
               <div className="flex flex-col gap-y-3 md:px-3">
                 <div className="flex flex-col gap-y-3">
                   {/* <label className="font-semibold">Upload your CV/Resume</label> */}
-                  <div className="border-2 border-dashed border-indigo-300 flex flex-col lg:py-6 rounded-md">
+                  <div 
+                    onDragOver={handleDragOver}
+                    onDragLeave={handleDragLeave}
+                    onDrop={handleDrop}
+                    className={`border-2 border-dashed rounded-md flex flex-col lg:py-6 transition
+                      ${
+                        isDragging
+                          ? "border-indigo-600 bg-indigo-100"
+                          : "border-indigo-300"
+                      }`}
+                  >
                     <input
                       className="hidden"
                       id="cv-upload"
