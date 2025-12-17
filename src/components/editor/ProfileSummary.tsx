@@ -12,6 +12,8 @@ export default function ProfileSummary({profileSummary}: { profileSummary?: stri
     });
   };
 
+  // add visibility toggle
+
   return (
     <section className="border border-slate-400 px-6 py-8 rounded-sm">
       <div className="">

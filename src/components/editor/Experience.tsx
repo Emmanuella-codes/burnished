@@ -2,6 +2,7 @@ import { useDateFields } from "@/hooks/useDateFields";
 import { useCursorPreservingChange } from "@/hooks/usePreserveCursor";
 import { maxDate } from "@/hooks/useSingleDateField";
 import { resumeStore } from "@/store/resumeStore";
+import { Eye, EyeClosed, Trash } from "lucide-react";
 
 type ExperienceProps = {
   company: string;
@@ -10,6 +11,7 @@ type ExperienceProps = {
   endDate: string;
   location?: string;
   desc: string[];
+  hidden?: boolean;
 };
 
 type Props = {
@@ -49,9 +51,34 @@ export default function Experiences({ exp, index }: Props) {
     },
   });
 
+  const toggleVisibility = () => {
+    resumeStore.experiences[index].hidden = !resumeStore.experiences[index].hidden;
+  };
+
+  const deleteExperience = () => {
+    resumeStore.experiences.splice(index, 1);
+  };
+
   return (
-    <section className="border border-slate-400 px-6 py-8 rounded-sm">
-      <div className="">
+    <section className="">
+      <div className="w-full flex justify-end gap-x-2">
+        <button 
+          type="button"
+          onClick={toggleVisibility}
+          className={`px-2 py-1 rounded border 
+            ${exp.hidden === false ? "" : ""}`}
+        >
+          {exp.hidden ? <Eye /> : <EyeClosed />}
+          </button>
+        <button 
+          type="button" 
+          className="px-2 py-1 rounded border"
+          onClick={deleteExperience}
+        >
+          <Trash />
+        </button>
+      </div>
+      <div className="my-3 border border-slate-400 px-6 py-8 rounded-sm">
         <form action="">
           <div className="flex flex-col gap-y-3">
             <div className="flex flex-col">

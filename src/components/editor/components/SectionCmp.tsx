@@ -63,19 +63,10 @@ export function Section({
   );
 }
 
-export function SectionButtons({
-  add,
-  remove,
-  showRemove = true,
-}: {
-  add: () => void;
-  remove: () => void;
-  showRemove?: boolean;
-}) {
+export function SectionButtons({ add }: { add: () => void }) {
   return (
     <div className="flex flex-row mt-3 gap-x-3 justify-end">
       <CtaButton text="Add" onClick={add} className="" />
-      {showRemove && <CtaButton text="Remove" onClick={remove} className="" />}
     </div>
   );
 }

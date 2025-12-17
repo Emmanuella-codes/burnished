@@ -1,6 +1,7 @@
 import { useCursorPreservingChange } from "@/hooks/usePreserveCursor";
 import { useSingleDateField } from "@/hooks/useSingleDateField";
 import { resumeStore } from "@/store/resumeStore";
+import { Eye, EyeClosed, Trash } from "lucide-react";
 
 type AwardProps = {
   title: string;
@@ -8,6 +9,7 @@ type AwardProps = {
   issuer?: string;
   date?: string;
   desc?: string[];
+  hidden?: boolean;
 };
 
 type Props = {
@@ -53,9 +55,36 @@ export default function Awards({ award, index }: Props) {
     resumeStore.awards?.[index]?.desc?.splice(descIdx, 1);
   };
 
+  const toggleVisibility = () => {
+    if (resumeStore.awards) {
+      resumeStore.awards[index].hidden = !resumeStore.awards[index].hidden;
+    }
+  };
+
+  const deleteAward = () => {
+    (resumeStore.awards ??= []).splice(index, 1);
+  };
+
   return (
-    <section className="border border-slate-400 px-6 py-8 rounded-sm">
-      <div className="">
+    <section className="">
+      <div className="w-full flex justify-end gap-x-2">
+        <button 
+          type="button"
+          onClick={toggleVisibility}
+          className={`px-2 py-1 rounded border 
+            ${award.hidden === false ? "" : ""}`}
+        >
+          {award.hidden ? <Eye /> : <EyeClosed />}
+          </button>
+        <button 
+          type="button" 
+          className="px-2 py-1 rounded border"
+          onClick={deleteAward}
+        >
+          <Trash />
+        </button>
+      </div>
+      <div className="my-3 border border-slate-400 px-6 py-8 rounded-sm">
         <form action="">
           <div className="flex flex-col gap-y-3">
             <div className="flex flex-col">

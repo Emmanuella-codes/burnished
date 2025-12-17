@@ -2,9 +2,11 @@
 type TemplateSkillsProps = {
   title: string;
   values: string[];
+  hidden?: boolean;
 };
 
 export default function TemplateSkills({ skills }: { skills: TemplateSkillsProps }) {
+  if (skills.hidden) return null;
   return (
     <section className="">
       <div className="flex flex-col gap-y-2">

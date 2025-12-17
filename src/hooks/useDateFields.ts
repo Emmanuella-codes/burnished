@@ -40,6 +40,7 @@ export function useDateFields({ startDate, endDate, onUpdate }: DateFieldsConfig
   };
 
   const getInputValue = (dateStr: string): string => {
+    if (dateStr === 'Present') return '';
     return formatDateToStorage(dateStr);
   };
 

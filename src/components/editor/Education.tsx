@@ -2,6 +2,7 @@ import { useDateFields } from "@/hooks/useDateFields";
 import { useCursorPreservingChange } from "@/hooks/usePreserveCursor";
 import { maxDate } from "@/hooks/useSingleDateField";
 import { resumeStore } from "@/store/resumeStore";
+import { Eye, EyeClosed, Trash } from "lucide-react";
 
 type EducationProps = {
   degree: string;
@@ -10,6 +11,7 @@ type EducationProps = {
   endDate: string;
   location?: string;
   desc?: string[];
+  hidden?: boolean;
 };
 
 type Props = {
@@ -46,16 +48,41 @@ export default function Education({ educn, index }: Props) {
   };
 
   const dateFields = useDateFields({
-      startDate: educn.startDate,
-      endDate: educn.endDate,
-      onUpdate: (field, value) => {
-        resumeStore.education[index][field] = value;
-      },
-    });
+    startDate: educn.startDate,
+    endDate: educn.endDate,
+    onUpdate: (field, value) => {
+      resumeStore.education[index][field] = value;
+    },
+  });
+
+  const toggleVisibility = () => {
+    resumeStore.education[index].hidden = !resumeStore.education[index].hidden;
+  };
+
+  const deleteEducation = () => {
+    resumeStore.education.splice(index, 1);
+  };
 
   return (
-    <section className="border border-slate-400 px-6 py-8 rounded-sm">
-      <div className="">
+    <section className="">
+      <div className="w-full flex justify-end gap-x-2">
+        <button 
+          type="button"
+          onClick={toggleVisibility}
+          className={`px-2 py-1 rounded border 
+            ${educn.hidden === false ? "" : ""}`}
+        >
+          {educn.hidden ? <Eye /> : <EyeClosed />}
+          </button>
+        <button 
+          type="button" 
+          className="px-2 py-1 rounded border"
+          onClick={deleteEducation}
+        >
+          <Trash />
+        </button>
+      </div>
+      <div className="my-3 border border-slate-400 px-6 py-8 rounded-sm">
         <form action="">
           <div className="flex flex-col gap-y-3">
             <div className="flex flex-col">

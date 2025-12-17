@@ -5,9 +5,11 @@ type TemplateAwardsProp = {
   issuer?: string;
   date?: string;
   desc?: string[];
+  hidden?: boolean;
 };
 
 export default function TemplateAwards({ awards }: { awards: TemplateAwardsProp }) {
+  if (awards.hidden) return null;
   return (
     <section className="">
       <div className="flex flex-col">

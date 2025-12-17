@@ -6,9 +6,11 @@ type EducationTemplateProps = {
   endDate: string
   location?: string;
   desc?: string[];
+  hidden?: boolean;
 }
 
 export default function TemplateEducation({ education }: { education: EducationTemplateProps }) {
+  if (education.hidden) return null;
   return (
     <section className="">
       <div className="">

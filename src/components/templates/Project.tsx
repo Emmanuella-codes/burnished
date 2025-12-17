@@ -4,9 +4,11 @@ type TemplateProjectProps = {
   link?: string;
   subTitle?: string;
   desc: string[];
+  hidden?: boolean;
 };
 
 export default function TemplateProject({ projects }: {projects: TemplateProjectProps}) {
+  if (projects.hidden) return null;
   return (
     <section>
       <div className="flex flex-col">

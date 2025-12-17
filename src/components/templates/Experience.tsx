@@ -6,9 +6,11 @@ type TemplateExperienceProps = {
   endDate: string
   location?: string;
   desc: string[];
+  hidden?: boolean;
 };
 
 export default function TemplateExperience({ experiences }: { experiences: TemplateExperienceProps }) {
+  if (experiences.hidden) return null;
   return (
     <section className="">
       <div className="flex flex-col gap-y-2">

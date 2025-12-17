@@ -62,11 +62,9 @@ export default function EditorForm() {
           add={() =>
             (resumeStore.skills = [
               ...resumeStore.skills,
-              { title: "", values: [""] },
+              { title: "", values: [""], hidden: false },
             ])
           }
-          remove={() => resumeStore.skills.pop()}
-          showRemove={snap.skills.length > 1}
         />
       </>
     ),
@@ -92,10 +90,10 @@ export default function EditorForm() {
                 endDate: "",
                 location: "",
                 desc: [""],
+                hidden: false,
               },
             ])
           }
-          remove={() => resumeStore.experiences.pop()}
         />
       </>
     ),
@@ -124,10 +122,10 @@ export default function EditorForm() {
                 endDate: "",
                 location: "",
                 desc: [""],
+                hidden: false,
               },
             ])
           }
-          remove={() => resumeStore.education.pop()}
         />
       </>
     ),
@@ -154,10 +152,10 @@ export default function EditorForm() {
                 link: "",
                 subTitle: "",
                 desc: [""],
+                hidden: false,
               },
             ])
           }
-          remove={() => resumeStore.projects.pop()}
         />
       </>
     ),
@@ -185,10 +183,10 @@ export default function EditorForm() {
                 issuer: "",
                 date: "",
                 desc: [],
+                hidden: false,
               },
             ])
           }
-          remove={() => resumeStore.awards?.pop()}
         />
       </>
     ),

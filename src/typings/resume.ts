@@ -19,6 +19,7 @@ export type Resume = {
   skills: Array<{
     title: string;
     values: string[];
+    hidden?: boolean;
   }>;
   experiences: Array<{
     company: string;
@@ -27,6 +28,7 @@ export type Resume = {
     endDate: string;
     location?: string;
     desc: string[];
+    hidden?: boolean;
   }>;
   education: Array<{
     degree: string;
@@ -35,12 +37,14 @@ export type Resume = {
     endDate: string;
     location?: string;
     desc?: string[];
+    hidden?: boolean;
   }>;
   projects: Array<{
     title: string;
     link?: string;
     subTitle?: string;
     desc: string[];
+    hidden?: boolean;
   }>;
   awards?: Array<{
     title: string;
@@ -48,6 +52,7 @@ export type Resume = {
     issuer?: string;
     date?: string;
     desc?: string[];
+    hidden?: boolean;
   }>;
   sectionOrder: string[];
 };

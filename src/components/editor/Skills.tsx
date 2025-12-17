@@ -1,6 +1,7 @@
 "use client";
 import { useCursorPreservingChange } from "@/hooks/usePreserveCursor";
 import { resumeStore } from "@/store/resumeStore";
+import { Eye, EyeClosed, Trash } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useSnapshot } from "valtio";
 
@@ -35,10 +36,36 @@ export default function Skills({ index }: SkillProps) {
         .filter(v => v !== '');
     });
   };
+
+  const toggleVisibility = () => {
+    resumeStore.skills[index].hidden = !resumeStore.skills[index].hidden;
+  };
+
+  const deleteSkill = () => {
+    resumeStore.skills.splice(index, 1);
+  };
+
   
   return (
-    <section className="border border-slate-400 px-6 py-8 rounded-sm">
-      <div className="">
+    <section className="">
+      <div className="w-full flex justify-end gap-x-2">
+        <button 
+          type="button"
+          onClick={toggleVisibility}
+          className={`px-2 py-1 rounded border 
+            ${skill.hidden === false ? "" : ""}`}
+        >
+          {skill.hidden ? <Eye /> : <EyeClosed />}
+        </button>
+        <button 
+          type="button" 
+          className="px-2 py-1 rounded border"
+          onClick={deleteSkill}
+        >
+          <Trash />
+        </button>
+      </div>
+      <div className="my-3 border border-slate-400 px-6 py-8 rounded-sm">
         <form action="">
           <div className="flex flex-col gap-y-3">
             <div className="flex flex-col">

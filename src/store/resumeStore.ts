@@ -17,7 +17,11 @@ export const defaultResumeState: Resume = {
   },
   profileSummary: "",
   skills: [
-    { title: "", values: [""] }
+    { 
+      title: "", 
+      values: [""],
+      hidden: false, 
+    }
   ],
   experiences: [
     {
@@ -27,6 +31,7 @@ export const defaultResumeState: Resume = {
       endDate: "",
       location: "",
       desc: [""],
+      hidden: false,
     }
   ],
   education: [
@@ -37,6 +42,7 @@ export const defaultResumeState: Resume = {
       endDate: "",
       location: "",
       desc: [""],
+      hidden: false,
     }
   ],
   projects: [
@@ -45,6 +51,7 @@ export const defaultResumeState: Resume = {
       link: "",
       subTitle: "",
       desc: [""],
+      hidden: false,
     }
   ],
   awards: [
@@ -54,6 +61,7 @@ export const defaultResumeState: Resume = {
       issuer: "",
       date: "",
       desc: [""],
+      hidden: false,
     }
   ],
   sectionOrder: [
