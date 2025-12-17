@@ -1,40 +1,38 @@
 
 type EducationTemplateProps = {
-  education: Array<{
-    degree: string;
-    institution: string;
-    startDate: string;
-    endDate: string
-    location?: string;
-    desc?: string[];
-  }>;
+  degree: string;
+  institution: string;
+  startDate: string;
+  endDate: string
+  location?: string;
+  desc?: string[];
+  hidden?: boolean;
 }
 
-export default function TemplateEducation({ education }: EducationTemplateProps) {
+export default function TemplateEducation({ education }: { education: EducationTemplateProps }) {
+  if (education.hidden) return null;
   return (
     <section className="">
       <div className="">
-        {education.map((item, idx) => (
-          <div key={`edcn-${idx}`} className="">
+          <div className="">
             <div className="flex flex-row justify-between">
             <div className="">
-              <h3 className="text-[14px] font-semibold">{item.degree}</h3>
-              <h4 className="text-[14px]">{item.institution}</h4>
+              <h3 className="text-[14px] font-semibold">{education.degree}</h3>
+              <h4 className="text-[14px]">{education.institution}</h4>
             </div>
             <div className=" flex flex-row gap-x-2">
-              <span className="text-[14px]">{`${item.startDate} - ${item.endDate}`}</span>
-              {item.location && <span className="text-[14px]">{item.location}</span>}
+              <span className="text-[14px]">{`${education.startDate} - ${education.endDate}`}</span>
+              {education.location && <span className="text-[14px]">{education.location}</span>}
             </div>
           </div>
             <div className="pl-4">
               <ul className="list-disc">
-                {item.desc?.map((item, idx) => (
+                {education.desc?.map((item, idx) => (
                   <li key={`edcndesc-${idx}`} className="text-[14px]">{item}</li>
                 ))}
               </ul>
             </div>
           </div>
-        ))}
       </div>
     </section>
   );

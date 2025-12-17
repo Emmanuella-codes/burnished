@@ -88,11 +88,14 @@ export default function Template({
               content: <TemplateSectionHeader title="Skills" />,
               key: "skills-header"
             });
-            allItems.push({
-              type: "content",
-              content: <TemplateSkills skills={skills} />,
-              key: "skills-content"
-            });
+            skills.forEach((skill, idx) => {
+              allItems.push({
+                type: "content",
+                content: <TemplateSkills skills={skill} />,
+                key: `skills-content-${idx}`,
+              });
+            }) 
+            
           }
           break;
         case "experiences":
@@ -106,7 +109,7 @@ export default function Template({
             experiences.forEach((exp, idx) => {
               allItems.push({
                 type: "content",
-                content: <TemplateExperience experiences={[exp]} />,
+                content: <TemplateExperience experiences={exp} />,
                 key: `exp-content-${idx}`,
               });
             });
@@ -123,7 +126,7 @@ export default function Template({
             education.forEach((edu, idx) => {
               allItems.push({
                 type: 'content',
-                content: <TemplateEducation education={[edu]} />,
+                content: <TemplateEducation education={edu} />,
                 key: `edu-content-${idx}`,
               });
             });
@@ -140,7 +143,7 @@ export default function Template({
             projects.forEach((proj, idx) => {
               allItems.push({
                 type: "content",
-                content: <TemplateProject projects={[proj]} />,
+                content: <TemplateProject projects={proj} />,
                 key: `proj-content-${idx}`,
               });
             });
@@ -157,7 +160,7 @@ export default function Template({
             awards.forEach((award, idx) => {
               allItems.push({
                 type: "content",
-                content: <TemplateAwards awards={[award]} />,
+                content: <TemplateAwards awards={award} />,
                 key: `awards-content-${idx}`,
               });
             })
@@ -234,7 +237,11 @@ export default function Template({
                 return skills && skills.length > 0 ? (
                   <React.Fragment key="skills">
                     <div data-item><TemplateSectionHeader title="Skills" /></div>
-                    <div data-item><TemplateSkills skills={skills} /></div>
+                    {skills.map((skill, idx) => (
+                      <div key={`exp-${idx}`} data-item>
+                        <TemplateSkills skills={skill} />
+                      </div>
+                    ))}
                   </React.Fragment>
                 ) : null;
               case "experiences":
@@ -243,7 +250,7 @@ export default function Template({
                     <div data-item><TemplateSectionHeader title="Professional Experience" /></div>
                     {experiences.map((exp, idx) => (
                       <div key={`exp-${idx}`} data-item>
-                        <TemplateExperience experiences={[exp]} />
+                        <TemplateExperience experiences={exp} />
                       </div>
                     ))}
                   </React.Fragment>
@@ -254,7 +261,7 @@ export default function Template({
                     <div data-item><TemplateSectionHeader title="Education" /></div>
                     {education.map((edu, idx) => (
                       <div key={`edu-${idx}`} data-item>
-                        <TemplateEducation education={[edu]} />
+                        <TemplateEducation education={edu} />
                       </div>
                     ))}
                   </React.Fragment>
@@ -265,7 +272,7 @@ export default function Template({
                     <div data-item><TemplateSectionHeader title="Projects" /></div>
                     {projects.map((proj, idx) => (
                       <div key={`proj-${idx}`} data-item>
-                        <TemplateProject projects={[proj]} />
+                        <TemplateProject projects={proj} />
                       </div>
                     ))}
                   </React.Fragment>
@@ -276,7 +283,7 @@ export default function Template({
                     <div data-item><TemplateSectionHeader title="Awards" /></div>
                     {awards.map((award, idx) => (
                       <div key={`award-${idx}`} data-item>
-                        <TemplateAwards awards={[award]} />
+                        <TemplateAwards awards={award} />
                       </div>
                     ))}
                   </React.Fragment>

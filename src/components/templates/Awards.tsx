@@ -1,42 +1,40 @@
 
 type TemplateAwardsProp = {
-  awards: Array<{
-    title: string;
-    link?: string;
-    issuer?: string;
-    date?: string;
-    desc?: string[];
-  }>;
+  title: string;
+  link?: string;
+  issuer?: string;
+  date?: string;
+  desc?: string[];
+  hidden?: boolean;
 };
 
-export default function TemplateAwards({ awards }: TemplateAwardsProp) {
+export default function TemplateAwards({ awards }: { awards: TemplateAwardsProp }) {
+  if (awards.hidden) return null;
   return (
     <section className="">
       <div className="flex flex-col">
-        {awards.map((award, idx) => (
-          <div key={`award-${idx}`} className="">
+          <div className="">
             <div className="flex flex-row justify-between">
               <div className="flex flex-col">
-                <a href={award.link} className="">
-                  <h3 className="text-[14px] font-semibold">{award.title}</h3>
+                <a href={awards.link} className="">
+                  <h3 className="text-[14px] font-semibold">{awards.title}</h3>
                 </a>
-                {award.issuer && <h4 className="text-[14px]">{award.issuer}</h4>}
+                {awards.issuer && <h4 className="text-[14px]">{awards.issuer}</h4>}
               </div>
               <div className="">
-                {award.date && (
-                  <span className="text-[14px]">{award.date}</span>
+                {awards.date && (
+                  <span className="text-[14px]">{awards.date}</span>
                 )}
               </div>
             </div>
             <div className="pl-4">
               <ul className="list-disc">
-                {award.desc?.map((item, idx) => (
+                {awards.desc?.map((item, idx) => (
                   <li key={`awddesc-${idx}`} className="text-[14px]">{item}</li>
                 ))}
               </ul>
             </div>
           </div>
-        ))}
       </div>
     </section>
   );

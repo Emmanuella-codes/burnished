@@ -49,21 +49,22 @@ export default function EditorForm() {
     profileSummary:  <ProfileSummary profileSummary={snap.profileSummary ?? ""} />,
     skills: (
       <>
-        {snap.skills.map((s, idx) => (
-          <Skills
-            key={`es-${idx}`}
-            index={idx}
-          />
-        ))}
+        <div className="flex flex-col gap-y-2">
+          {snap.skills.map((s, idx) => (
+            <Skills
+              key={`es-${idx}`}
+              index={idx}
+            />
+          ))}
+        </div>
+        
         <SectionButtons
           add={() =>
             (resumeStore.skills = [
               ...resumeStore.skills,
-              { title: "", values: [""] },
+              { title: "", values: [""], hidden: false },
             ])
           }
-          remove={() => resumeStore.skills.pop()}
-          showRemove={snap.skills.length > 1}
         />
       </>
     ),
@@ -89,10 +90,10 @@ export default function EditorForm() {
                 endDate: "",
                 location: "",
                 desc: [""],
+                hidden: false,
               },
             ])
           }
-          remove={() => resumeStore.experiences.pop()}
         />
       </>
     ),
@@ -102,12 +103,14 @@ export default function EditorForm() {
           {snap.education.map((edn, idx) => (
             <Education
               key={`eed-${idx}`}
-              educn={{ ...edn, desc: [...(edn.desc ?? [])] }}
+              educn={{ 
+                ...edn, 
+                desc: edn.desc && edn.desc.length > 0 ? [...edn.desc] : [""],
+              }}
               index={idx}
             />
           ))}
         </div>
-        
         <SectionButtons
           add={() =>
             (resumeStore.education = [
@@ -119,10 +122,10 @@ export default function EditorForm() {
                 endDate: "",
                 location: "",
                 desc: [""],
+                hidden: false,
               },
             ])
           }
-          remove={() => resumeStore.education.pop()}
         />
       </>
     ),
@@ -132,7 +135,10 @@ export default function EditorForm() {
           {snap.projects.map((proj, idx) => (
             <Projects
               key={`ep-${idx}`}
-              proj={{ ...proj, desc: [...proj.desc] }}
+              proj={{ 
+                ...proj, 
+                desc: proj.desc && proj.desc.length > 0 ? [...proj.desc] : [""], 
+              }}
               index={idx}
             />
           ))}
@@ -146,10 +152,10 @@ export default function EditorForm() {
                 link: "",
                 subTitle: "",
                 desc: [""],
+                hidden: false,
               },
             ])
           }
-          remove={() => resumeStore.projects.pop()}
         />
       </>
     ),
@@ -159,7 +165,10 @@ export default function EditorForm() {
           {snap.awards?.map((award, idx) => (
             <Awards
               key={`ea-${idx}`}
-              award={{ ...award, desc: [...(award.desc ?? [])] }}
+              award={{ 
+                ...award, 
+                desc: award.desc && award.desc.length > 0 ? [...award.desc] : [""], 
+              }}
               index={idx}
             />
           ))}
@@ -174,10 +183,10 @@ export default function EditorForm() {
                 issuer: "",
                 date: "",
                 desc: [],
+                hidden: false,
               },
             ])
           }
-          remove={() => resumeStore.awards?.pop()}
         />
       </>
     ),
@@ -213,14 +222,14 @@ export default function EditorForm() {
           {snap.sectionOrder.map((key) => {
             const locked = isLocked(key);
             const titles: Record<string, string> = {
-          header: "👤 Personal Information",
-          profileSummary: "📝 Profile (optional)",
-          skills: "⚡ Skills",
-          experiences: "💼 Professional Experiences",
-          education: "🎓 Education",
-          projects: "💻 Projects",
-          awards: "🏆 Awards / Certifications (optional)",
-        };
+              header: "👤 Personal Information",
+              profileSummary: "📝 Profile (optional)",
+              skills: "⚡ Skills",
+              experiences: "💼 Professional Experiences",
+              education: "🎓 Education",
+              projects: "💻 Projects",
+              awards: "🏆 Awards / Certifications (optional)",
+            };
 
             return (
               <SortableSection

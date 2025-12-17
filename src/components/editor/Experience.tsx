@@ -2,6 +2,7 @@ import { useDateFields } from "@/hooks/useDateFields";
 import { useCursorPreservingChange } from "@/hooks/usePreserveCursor";
 import { maxDate } from "@/hooks/useSingleDateField";
 import { resumeStore } from "@/store/resumeStore";
+import { Eye, EyeClosed, Trash } from "lucide-react";
 
 type ExperienceProps = {
   company: string;
@@ -10,6 +11,7 @@ type ExperienceProps = {
   endDate: string;
   location?: string;
   desc: string[];
+  hidden?: boolean;
 };
 
 type Props = {
@@ -49,9 +51,34 @@ export default function Experiences({ exp, index }: Props) {
     },
   });
 
+  const toggleVisibility = () => {
+    resumeStore.experiences[index].hidden = !resumeStore.experiences[index].hidden;
+  };
+
+  const deleteExperience = () => {
+    resumeStore.experiences.splice(index, 1);
+  };
+
   return (
-    <section className="border border-slate-400 px-6 py-8 rounded-sm">
-      <div className="">
+    <section className="">
+      <div className="w-full flex justify-end gap-x-2">
+        <button 
+          type="button"
+          onClick={toggleVisibility}
+          className={`px-2 py-1 rounded border 
+            ${exp.hidden === false ? "" : ""}`}
+        >
+          {exp.hidden ? <Eye /> : <EyeClosed />}
+          </button>
+        <button 
+          type="button" 
+          className="px-2 py-1 rounded border"
+          onClick={deleteExperience}
+        >
+          <Trash />
+        </button>
+      </div>
+      <div className="my-3 border border-slate-400 px-6 py-8 rounded-sm">
         <form action="">
           <div className="flex flex-col gap-y-3">
             <div className="flex flex-col">
@@ -59,7 +86,7 @@ export default function Experiences({ exp, index }: Props) {
               <input
                 ref={setRef('occupation')}
                 type="text" 
-                className="rounded-md px-2 py-1"
+                className="rounded-md px-2 py-1 border border-gray-700"
                 value={exp.occupation}
                 onChange={(e) => updateField("occupation", e.target.value)}
               />
@@ -69,7 +96,7 @@ export default function Experiences({ exp, index }: Props) {
               <input
                 ref={setRef('company')}
                 type="text" 
-                className="rounded-md px-2 py-1"
+                className="rounded-md px-2 py-1 border border-gray-700"
                 value={exp.company}
                 onChange={(e) => updateField("company", e.target.value)}
               />
@@ -79,7 +106,7 @@ export default function Experiences({ exp, index }: Props) {
                 <label htmlFor="">Start Date</label>
                 <input
                   type="month"
-                  className="w-full rounded-md px-2 py-1"
+                  className="w-full rounded-md px-2 py-1 border border-gray-700"
                   max={maxDate}
                   value={dateFields.getInputValue(exp.startDate)}
                   onChange={(e) => dateFields.handleDateChange("startDate", e.target.value)}
@@ -90,7 +117,7 @@ export default function Experiences({ exp, index }: Props) {
                 <div className="flex flex-col gap-y-1">
                   <input
                     type="month"
-                    className="w-full rounded-md px-2 py-1"
+                    className="w-full rounded-md px-2 py-1 border border-gray-700"
                     max={maxDate}
                     min={dateFields.getInputValue(exp.startDate)}
                     value={dateFields.getInputValue(exp.endDate)}
@@ -113,7 +140,7 @@ export default function Experiences({ exp, index }: Props) {
                 <input
                   ref={setRef('location')}
                   type="text"
-                  className="w-full rounded-md px-2 py-1"
+                  className="w-full rounded-md px-2 py-1 border border-gray-700"
                   value={exp.location || ""}
                   onChange={(e) => updateField("location", e.target.value)}
                 />
@@ -124,13 +151,13 @@ export default function Experiences({ exp, index }: Props) {
               {/* for every description added for this experience, a bullet point is created */}
               <div className="flex flex-col gap-y-3">
                 {exp.desc.map((d, idx) => (
-                  <div key={`desc-${idx}`} className="flex flex-row gap-x-2">
+                  <div key={`exp-desc-${idx}`} className="flex flex-row gap-x-2">
                     <input
                       ref={setRef(`desc-${idx}`)}
                       type="text"
                       value={d}
                       onChange={(e) => updateDesc(idx, e.target.value)}
-                      className="rounded-md px-2 py-1 w-full"
+                      className="rounded-md px-2 py-1 w-full border border-gray-700"
                     />
                     <button
                       type="button"

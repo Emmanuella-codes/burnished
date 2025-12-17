@@ -1,34 +1,32 @@
 
 type TemplateProjectProps = {
-  projects: Array<{
-    title: string;
-    link?: string;
-    subTitle?: string;
-    desc: string[];
-  }>;
+  title: string;
+  link?: string;
+  subTitle?: string;
+  desc: string[];
+  hidden?: boolean;
 };
 
-export default function TemplateProject({ projects }: TemplateProjectProps) {
+export default function TemplateProject({ projects }: {projects: TemplateProjectProps}) {
+  if (projects.hidden) return null;
   return (
     <section>
       <div className="flex flex-col">
-        {projects.map((proj, idx) => (
-          <div key={`proj-${idx}`} className="">
-            <div className="">
-              <a href={proj.link} className="">
-                <h3 className="text-[14px] font-semibold">{proj.title}</h3>
-              </a>
-              {proj.subTitle && <h4 className="text-[14px]">{proj.subTitle}</h4>}
-            </div>
-            <div className="pl-4">
-              <ul className="list-disc">
-                {proj.desc.map((item, idx) => (
-                  <li key={`projdesc-${idx}`} className="text-[14px]">{item}</li>
-                ))}
-              </ul>
-            </div>
+        <div className="">
+          <div className="">
+            <a href={projects.link} className="">
+              <h3 className="text-[14px] font-semibold">{projects.title}</h3>
+            </a>
+            {projects.subTitle && <h4 className="text-[14px]">{projects.subTitle}</h4>}
           </div>
-        ))}
+          <div className="pl-4">
+            <ul className="list-disc">
+              {projects.desc.map((item, idx) => (
+                <li key={`projdesc-${idx}`} className="text-[14px]">{item}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
       </div>
     </section>
   );

@@ -1,22 +1,20 @@
 
 type TemplateSkillsProps = {
-  skills: Array<{
-    title: string;
-    values: string[];
-  }>;
+  title: string;
+  values: string[];
+  hidden?: boolean;
 };
 
-export default function TemplateSkills({ skills }: TemplateSkillsProps) {
+export default function TemplateSkills({ skills }: { skills: TemplateSkillsProps }) {
+  if (skills.hidden) return null;
   return (
     <section className="">
       <div className="flex flex-col gap-y-2">
-        {skills.map((skill, idx) => (
-          <div key={`skill-${idx}`} className="">
-            <h3 className="text-[14px] font-semibold">{skill.title ? `${skill.title}:` : ""}</h3>
-            <p className="text-[14px]">{skill.values.join(", ")}</p>
-          </div>
-        ))}
+        <div className="">
+          <h3 className="text-[14px] font-semibold">{skills.title ? `${skills.title}:` : ""}</h3>
+          <p className="text-[14px]">{skills.values.join(", ")}</p>
+        </div>
       </div>
     </section>
-  )
-};
+  );
+}
