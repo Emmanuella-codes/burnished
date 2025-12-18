@@ -117,7 +117,7 @@ export default function FormView() {
 
   return(
     <div className="w-full flex items-center justify-center">
-      <div className="bg-[#dfd8d8] py-4 px-2 rounded-md w-full">
+      <div className="bg-[#dfe6e6] py-4 px-2 rounded-md w-full">
         <div className="w-full">
           {/* form */}
           <div className="mt-5">
@@ -131,8 +131,8 @@ export default function FormView() {
                     className={`border-2 border-dashed rounded-md flex flex-col lg:py-6 transition
                       ${
                         isDragging
-                          ? "border-[#cfb2b2] bg-[#cfbebe]"
-                          : "border-[#cebcbc]"
+                          ? "border-[#aad6d6] bg-[#bbe8e8]"
+                          : "border-[#afd4d4]"
                       }`}
                   >
                     <input
@@ -141,7 +141,7 @@ export default function FormView() {
                       type="file"
                       accept=".pdf,.docx"
                       onChange={handleFileChange}
-                      required
+                      // required
                     />
                     <label htmlFor="cv-upload" className="cursor-pointer w-full">
                       <div className="flex flex-col w-full items-center py-5">
@@ -152,7 +152,7 @@ export default function FormView() {
                     </label>
                   </div>
                   {selectedFile && (
-                    <p className="text-sm">{selectedFile.name}</p>
+                    <p className="text-sm truncate lg:whitespace-normal">{selectedFile.name}</p>
                   )}
                 </div>
 

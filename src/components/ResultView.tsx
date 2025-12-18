@@ -13,7 +13,7 @@ export default function ResultView() {
 
   if (!snap.result?.content) {
     return (
-      <div className="border-2 border-dashed border-[#a2788d] flex flex-col items-center justify-center p-6">
+      <div className="border-2 border-dashed border-[#92b0b0] rounded-md flex flex-col items-center justify-center p-6">
         <span className="text-5xl">📋</span>
         <h3 className="text-sm font-semibold">No results yet</h3>
         <p className="text-sm text-gray-500">Upload your CV to get started</p>

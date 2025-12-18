@@ -1,5 +1,5 @@
 import { Header } from "@/typings/resume";
-import { toPng } from "html-to-image";
+import { toJpeg } from "html-to-image";
 import jsPDF from "jspdf";
 
 const PAGE_WIDTH = 816;
@@ -30,7 +30,8 @@ export const HandleDownloadPDF = async (
       const originalTransform = pageElement.style.transform;
       pageElement.style.transform = 'none';
 
-      const image = await toPng(pageElement, {
+      const image = await toJpeg(pageElement, {
+        quality: 0.85,
         pixelRatio: 2,
         backgroundColor: "#ffffff",
         width: PAGE_WIDTH,
@@ -46,7 +47,7 @@ export const HandleDownloadPDF = async (
         pdf.addPage([PAGE_WIDTH, PAGE_HEIGHT], 'portrait');
       }
 
-      pdf.addImage(image, 'PNG', 0, 0, PAGE_WIDTH, PAGE_HEIGHT);
+      pdf.addImage(image, 'JPEG', 0, 0, PAGE_WIDTH, PAGE_HEIGHT, undefined, 'FAST');
     }
 
     pdf.save(`${header.fullname.replace(/\s+/g, '_')}_${header.jobTitle.replace(/\s+/g, '_')}_Resume.pdf`);

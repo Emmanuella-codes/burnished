@@ -19,7 +19,7 @@ export default function TemplateDrawer() {
   return (
     <Drawer>
       <DrawerTrigger asChild>
-        <button className="lg:hidden bg-[#75575b] text-slate-200 text-sm px-2 py-1 rounded-md">
+        <button className="lg:hidden bg-[#59b2b2] text-white text-sm px-2 py-1 rounded-md">
           Preview Template
         </button>
       </DrawerTrigger>
