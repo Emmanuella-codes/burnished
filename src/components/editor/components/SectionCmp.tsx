@@ -1,7 +1,6 @@
 "use client";
-import { GripVertical, Maximize2, Minimize2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+// import { useState } from "react";
 
 type SectionProps = {
   title: string;
@@ -20,8 +19,8 @@ export function Section({
   dragHandleProps,
   children,
 }: SectionProps) {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const toggleExpand = () => setIsExpanded((prev) => !prev);
+  // const [isExpanded, setIsExpanded] = useState(false);
+  // const toggleExpand = () => setIsExpanded((prev) => !prev);
   
   return (
     <div className="bg-white rounded-md shadow-sm overflow-hidden">

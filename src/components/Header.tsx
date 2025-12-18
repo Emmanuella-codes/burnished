@@ -1,5 +1,5 @@
 import Link from "next/link";
-import ThemeToggle from "./compositions/ThemeToggle";
+// import ThemeToggle from "./compositions/ThemeToggle";
 
 export default function Header() {
   return (

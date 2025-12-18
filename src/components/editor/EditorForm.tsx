@@ -50,7 +50,7 @@ export default function EditorForm() {
     skills: (
       <>
         <div className="flex flex-col gap-y-2">
-          {snap.skills.map((s, idx) => (
+          {snap.skills.map((_, idx) => (
             <Skills
               key={`es-${idx}`}
               index={idx}

@@ -1,9 +1,9 @@
 import { useCursorPreservingChange } from "@/hooks/usePreserveCursor";
 import { resumeStore } from "@/store/resumeStore";
-import { useRef } from "react";
+// import { useRef } from "react";
 
 export default function ProfileSummary({profileSummary}: { profileSummary?: string }) {
-  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  // const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const { handleChange, setRef } = useCursorPreservingChange<HTMLTextAreaElement>();
 
   const updateSummary = (value: string) => {
