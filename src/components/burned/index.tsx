@@ -18,7 +18,7 @@ export default function BurnedCmp() {
           {["roast", "format", "letter"].map((tab) => (
             <button
               key={tab}
-              className={`${snap.activeTab === tab ? "font-bold bg-[#159d8b]" : "bg-[#58dcca]"} w-full lg:w-1/3 py-1.5 rounded-lg text-white text-base`}
+              className={`${snap.activeTab === tab ? "font-bold bg-[#159d8b]" : "bg-[#58dcca] text-gray-500"} w-full lg:w-1/3 py-1.5 rounded-lg text-white text-base`}
               onClick={() => burnedActions.setActiveTab(tab as any)}
             >
               {tab === "roast"
