@@ -3,23 +3,22 @@ import { useSnapshot } from "valtio";
 import FormView from "../FormView";
 import ResultView from "../ResultView";
 import { burnedActions, burnedStore } from "@/store/burnedStore";
-import { Button } from "../ui/button";
 
 export default function BurnedCmp() {
   const snap = useSnapshot(burnedStore);
 
   return (
-    <div className="w-full flex flex-col items-center lg:gap-y-8">
-      <div className="lg:w-[60%]">
+    <div className="w-full flex flex-col items-center lg:gap-y-8 overflow-hidden">
+      <div className="lg:w-[60%] flex-shrink-0 py-4">
         <div className="flex flex-col items-center mb-3">
           <h2 className="text-xl">🔥 CV/Resume Optimizer</h2>
           <p className="text-center">Roast, optimize or generate cover letters for your CV/Resume</p>
         </div>
         <div className="w-full flex flex-row justify-between gap-2 flex-wrap lg:flex-nowrap">
           {["roast", "format", "letter"].map((tab) => (
-            <Button
+            <button
               key={tab}
-              className={`${snap.activeTab === tab ? "font-bold bg-slate-900" : "bg-slate-600"} w-full lg:w-1/3`}
+              className={`${snap.activeTab === tab ? "font-bold bg-[#159d8b]" : "bg-[#58dcca]"} w-full lg:w-1/3 py-1.5 rounded-lg text-white text-base`}
               onClick={() => burnedActions.setActiveTab(tab as any)}
             >
               {tab === "roast"
@@ -27,15 +26,18 @@ export default function BurnedCmp() {
                 : tab === "format"
                 ? "✨ Optimize"
                 : "📝 Cover Letter"}
-            </Button>
+            </button>
           ))}
         </div>
       </div>
-      <div className="w-full lg:w-[96%] mt-5 mb-4 lg:mb-0 flex flex-col lg:flex-row gap-5">
-        <div className="w-full lg:w-1/2">
+      <div
+        className="w-full lg:w-[96%] mt-5 mb-4 lg:mb-0 flex flex-col lg:flex-row gap-5"
+        style={{ height: 'calc(100vh - 200px)' }}
+      >
+        <div className="w-full lg:w-1/2 lg:overflow-y-auto no-scrollbar">
           <FormView />
         </div>
-        <div className="w-full lg:w-1/2 lg:h-[800px] overflow-y-auto no-scrollbar">
+        <div className="w-full lg:w-1/2 lg:h-full overflow-y-auto no-scrollbar">
           <ResultView />
         </div>        
       </div>

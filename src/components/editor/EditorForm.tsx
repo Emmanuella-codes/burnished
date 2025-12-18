@@ -50,7 +50,7 @@ export default function EditorForm() {
     skills: (
       <>
         <div className="flex flex-col gap-y-2">
-          {snap.skills.map((s, idx) => (
+          {snap.skills.map((_, idx) => (
             <Skills
               key={`es-${idx}`}
               index={idx}
@@ -209,7 +209,7 @@ export default function EditorForm() {
   };
 
   return (
-    <div className="w-full flex flex-col gap-y-4 px-2 py-4 bg-slate-300/50 rounded-sm">
+    <div className="w-full flex flex-col gap-y-4 px-2 py-4 lg:px-4 lg:py-6 bg-[#bce3e3] rounded-md">
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}

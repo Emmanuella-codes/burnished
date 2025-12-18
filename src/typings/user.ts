@@ -1,4 +1,4 @@
-import { Document } from "./document";
+// import { Document } from "./document";
 
 export enum Role  {
   ADMIN = 'admin',
@@ -13,6 +13,6 @@ export type User = {
   password: string;
   isVerified: boolean;
   role: Role;
-  documents: Document[];
+  // documents: Document[];
   createdAt: Date
 }

@@ -48,6 +48,7 @@ export function useDateFields({ startDate, endDate, onUpdate }: DateFieldsConfig
     if (!dateStr || dateStr === 'Present') return dateStr;
     return dateStr; // already in display format
   };
+  console.log(startDate)
 
   return {
     isPresent,

@@ -28,7 +28,7 @@ export default function ResumeEditor() {
     <div className="w-full flex flex-col lg:items-center justify-center">
       <div className="flex flex-col px-3">
         <button 
-          className="bg-gray-500 text-sm w-20 flex flex-row items-center justify-center text-white py-1 gap-x-1 rounded-md"
+          className="bg-[#59b2b2] text-sm w-20 flex flex-row items-center justify-center text-white py-1 gap-x-1 rounded-md"
           onClick={() => router.back()}
         >
           <ArrowLeft size={20} /> Back
