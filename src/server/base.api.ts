@@ -30,7 +30,11 @@ const prepareObject = (obj: {[key: string]: any}) => {
 const convertObject = (obj: {[key: string]: any}) => {
   let res = "";
   if (Object.keys(obj).length === 0) return res;
-  for (const [key, val] of Object.entries(obj)) res += `${res ? '&' : ''}${key}=${val}`;
+  for (const [key, val] of Object.entries(obj)) {
+    const encKey = encodeURIComponent(key);
+    const encVal = encodeURIComponent(String(val));
+    res += `${res ? '&' : ''}${encKey}=${encVal}`;
+  }
   return res;
 };
 

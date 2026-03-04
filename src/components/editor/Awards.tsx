@@ -48,7 +48,9 @@ export default function Awards({ award, index }: Props) {
   };
 
   const addDesc = () => {
-    resumeStore.awards?.[index]?.desc?.push("");
+    const awardItem = ensureAward();
+    awardItem.desc = awardItem.desc ?? [];
+    awardItem.desc.push("");
   };
 
   const removeDesc = (descIdx: number) => {

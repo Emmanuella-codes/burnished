@@ -24,9 +24,15 @@ export default function TemplateHeader(props: Header) {
           .map((item, idx) => (
             <div key={`ci-${idx}`} className="flex flex-row justify-center items-center gap-x-1">
               <Image src={item.icon} alt={item.alt} width={13} height={13} />
-              <a href={item.url} className="text-[12px]">
-                <span>{item.alt === "phone" ? `+${item.value}` : item.value}</span>
-              </a>
+              {item.url ? (
+                <a href={item.url} className="text-[12px]">
+                  <span>{item.alt === "phone" ? `+${item.value}` : item.value}</span>
+                </a>
+              ) : (
+                <span className="text-[12px]">
+                  {item.alt === "phone" ? `+${item.value}` : item.value}
+                </span>
+              )}
             </div>
           ))}
       </div>

@@ -2,7 +2,7 @@
 import { useCursorPreservingChange } from "@/hooks/usePreserveCursor";
 import { resumeStore } from "@/store/resumeStore";
 import { Header } from "@/typings/resume";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type Props = {
   header: Header;
@@ -10,7 +10,7 @@ type Props = {
 
 export default function PersonalInfo({ header }: Props) {
   const optionalFields = ["github", "linkedin", "website"];
-  const [fields, setFields] = useState<string[]>(() => 
+  const [fields, setFields] = useState<string[]>(() =>
     optionalFields.filter(
       (f) => header[f as keyof Header] && header[f as keyof Header] !== ""
     )
@@ -34,6 +34,14 @@ export default function PersonalInfo({ header }: Props) {
       (resumeStore.header as any)[field] = "";
     }
   };
+
+  useEffect(() => {
+    setFields(
+      optionalFields.filter(
+        (f) => header[f as keyof Header] && header[f as keyof Header] !== ""
+      )
+    );
+  }, [header.github, header.linkedin, header.website]);
 
   return (
     <section className="border border-slate-400 px-6 py-8 rounded-sm">
