@@ -1,7 +1,14 @@
 import type { NextRequest } from "next/server";
-import { config, proxy } from "./src/proxy";
+import { proxy } from "./src/proxy";
 
-export { config };
+export const config = {
+  matcher: [
+    "/burned",
+    "/burned/:path*",
+    "/editor",
+    "/editor/:path*",
+  ],
+};
 
 export default function middleware(req: NextRequest) {
   return proxy(req);
