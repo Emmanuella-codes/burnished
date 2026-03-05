@@ -27,6 +27,7 @@ export default function BurnedCmp() {
               <button
                 key={tab}
                 className={`${snap.activeTab === tab ? "font-bold bg-[#159d8b]" : "bg-[#58dcca] text-gray-500"} w-full lg:w-1/3 py-1.5 rounded-lg text-white text-base`}
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 onClick={() => burnedActions.setActiveTab(tab as any)}
               >
                 {tab === "roast"
