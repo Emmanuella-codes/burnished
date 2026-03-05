@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import React, { useState } from "react";
 import { Button } from "./ui/button";
@@ -88,11 +89,6 @@ export default function FormView() {
           mode: snap.activeTab,
           content,
         });
-        // console.log("🔥 API payload:", payload);
-        // console.log("📦 Setting burnedStore.result:", {
-        //   mode: snap.activeTab,
-        //   content,
-        // });
         toast({
           title: "Success",
           description:
@@ -117,7 +113,7 @@ export default function FormView() {
 
   return(
     <div className="w-full flex items-center justify-center">
-      <div className="bg-[#dfe6e6] py-4 px-2 rounded-md w-full">
+      <div className="glass-card py-4 px-2 rounded-md w-full">
         <div className="w-full">
           {/* form */}
           <div className="mt-5">
