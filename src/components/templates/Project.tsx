@@ -14,9 +14,13 @@ export default function TemplateProject({ projects }: {projects: TemplateProject
       <div className="flex flex-col">
         <div className="">
           <div className="">
-            <a href={projects.link} className="">
+            {projects.link ? (
+              <a href={projects.link} className="">
+                <h3 className="text-[14px] font-semibold">{projects.title}</h3>
+              </a>
+            ) : (
               <h3 className="text-[14px] font-semibold">{projects.title}</h3>
-            </a>
+            )}
             {projects.subTitle && <h4 className="text-[14px]">{projects.subTitle}</h4>}
           </div>
           <div className="pl-4">

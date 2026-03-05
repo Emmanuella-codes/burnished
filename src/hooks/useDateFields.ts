@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { formatDateToStorage } from '@/utils/formatDate';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 type DateFieldsConfig = {
   startDate: string;
@@ -19,6 +20,10 @@ export function useDateFields({ startDate, endDate, onUpdate }: DateFieldsConfig
   };
 
   const handleDateChange = (field: 'startDate' | 'endDate', value: string) => {
+    if (!value) {
+      onUpdate(field, "");
+      return;
+    }
     const formattedDate = formatDateToMonthYear(value);
     onUpdate(field, formattedDate);
   };
@@ -48,7 +53,9 @@ export function useDateFields({ startDate, endDate, onUpdate }: DateFieldsConfig
     if (!dateStr || dateStr === 'Present') return dateStr;
     return dateStr; // already in display format
   };
-  console.log(startDate)
+  useEffect(() => {
+    setIsPresent(endDate === 'Present');
+  }, [endDate]);
 
   return {
     isPresent,

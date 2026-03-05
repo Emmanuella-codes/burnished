@@ -30,7 +30,7 @@ export default function Education({ educn, index }: Props) {
 
   const updateDesc = (descIdx: number, value: string) => {
     handleChange(`desc-${descIdx}`, () => {
-      resumeStore.experiences[index].desc[descIdx] = value;
+      resumeStore.education[index].desc![descIdx] = value;
     });
   };
 
@@ -113,7 +113,7 @@ export default function Education({ educn, index }: Props) {
                   className="w-full rounded-md px-2 py-1 border border-gray-700"
                   max={maxDate}
                   value={dateFields.getInputValue(educn.startDate)}
-                  onChange={(e) => updateField("startDate", e.target.value)}
+                  onChange={(e) => dateFields.handleDateChange("startDate", e.target.value)}
                 />
               </div>
               <div className="flex flex-col flex-1">
@@ -125,7 +125,8 @@ export default function Education({ educn, index }: Props) {
                     max={maxDate}
                     min={dateFields.getInputValue(educn.startDate)}
                     value={dateFields.getInputValue(educn.endDate)}
-                    onChange={(e) => updateField("endDate", e.target.value)}
+                    onChange={(e) => dateFields.handleDateChange("endDate", e.target.value)}
+                    disabled={dateFields.isPresent}
                   />
                   <label className="flex items-center gap-x-2 text-sm">
                     <input

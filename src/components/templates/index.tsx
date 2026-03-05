@@ -198,7 +198,7 @@ export default function Template({
 
           // Start new page
           currentPage = [];
-          currentHeight = 0;90
+          currentHeight = 0;
         }
 
         currentPage.push(<div key={item.key}>{item.content}</div>);
