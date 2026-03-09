@@ -210,7 +210,7 @@ export default function EditorForm() {
   };
 
   return (
-    <div className="w-full flex flex-col gap-y-4 px-2 py-4 lg:px-4 lg:py-6 bg-[#70718f] rounded-md">
+    <div className="w-full flex flex-col gap-y-4 px-2 py-4 lg:px-4 lg:py-6 bg-[#304a5c] rounded-md">
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}

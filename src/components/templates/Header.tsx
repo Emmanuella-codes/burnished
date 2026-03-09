@@ -1,4 +1,5 @@
 import { Header } from "@/typings/resume";
+import { formatPhone } from "@/utils/formatPhone";
 import Image from "next/image";
 
 export default function TemplateHeader(props: Header) {
@@ -26,11 +27,11 @@ export default function TemplateHeader(props: Header) {
               <Image src={item.icon} alt={item.alt} width={13} height={13} />
               {item.url ? (
                 <a href={item.url} className="text-[12px]">
-                  <span>{item.alt === "phone" ? `+${item.value}` : item.value}</span>
+                  <span>{item.alt === "phone" ? formatPhone(item.value) : item.value}</span>
                 </a>
               ) : (
                 <span className="text-[12px]">
-                  {item.alt === "phone" ? `+${item.value}` : item.value}
+                  {item.alt === "phone" ? formatPhone(item.value) : item.value}
                 </span>
               )}
             </div>
