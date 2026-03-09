@@ -4,9 +4,88 @@ import FormView from "../FormView";
 import ResultView from "../ResultView";
 import { burnedActions, burnedStore } from "@/store/burnedStore";
 import { HoverCardCmp } from "../compositions/HoverCardCmp";
+import { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
+
+const QUOTA_RESET_KEY = "burned_quota_reset_at";
+
+const formatTimeLeft = (ms: number) => {
+  const totalSeconds = Math.max(0, Math.floor(ms / 1000));
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  return [hours, minutes, seconds].map((value) => String(value).padStart(2, "0")).join(":");
+};
 
 export default function BurnedCmp() {
   const snap = useSnapshot(burnedStore);
+  const router = useRouter();
+  const [timeLeftMs, setTimeLeftMs] = useState(0);
+  const timerText = useMemo(() => formatTimeLeft(timeLeftMs), [timeLeftMs]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const tokenCookie = document.cookie
+      .split("; ")
+      .find((cookie) => cookie.startsWith("token="))
+      ?.split("=")[1];
+    const localToken = localStorage.getItem("burned_token");
+
+    if (!tokenCookie && !localToken) {
+      router.replace("/");
+    }
+  }, [router]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const savedResetAt = localStorage.getItem(QUOTA_RESET_KEY);
+    if (!savedResetAt) return;
+
+    const resetAt = Number(savedResetAt);
+    if (!Number.isFinite(resetAt)) {
+      localStorage.removeItem(QUOTA_RESET_KEY);
+      burnedActions.setQuotaReached(false);
+      burnedActions.setQuotaResetAt(null);
+      return;
+    }
+
+    if (Date.now() >= resetAt) {
+      localStorage.removeItem(QUOTA_RESET_KEY);
+      burnedActions.setQuotaReached(false);
+      burnedActions.setQuotaResetAt(null);
+      return;
+    }
+
+    burnedActions.setQuotaReached(true);
+    burnedActions.setQuotaResetAt(resetAt);
+  }, []);
+
+  useEffect(() => {
+    if (!snap.quotaReached || !snap.quotaResetAt) {
+      setTimeLeftMs(0);
+      return;
+    }
+
+    const updateCountdown = () => {
+      const remaining = snap.quotaResetAt! - Date.now();
+      if (remaining <= 0) {
+        setTimeLeftMs(0);
+        burnedActions.setQuotaReached(false);
+        burnedActions.setQuotaResetAt(null);
+        localStorage.removeItem(QUOTA_RESET_KEY);
+        return;
+      }
+
+      setTimeLeftMs(remaining);
+    };
+
+    updateCountdown();
+    const timerId = window.setInterval(updateCountdown, 1000);
+    return () => window.clearInterval(timerId);
+  }, [snap.quotaReached, snap.quotaResetAt]);
 
   return (
     <div className="w-full overflow-hidden">
@@ -14,6 +93,13 @@ export default function BurnedCmp() {
         <div className="w-full flex justify-end">
           <HoverCardCmp />
         </div>
+        {snap.quotaReached && (
+          <div className="w-full flex justify-end mt-1">
+            <p className="text-xs text-slate-600">
+              Daily limit reached. Unlocks in {timerText} (UTC).
+            </p>
+          </div>
+        )}
       </div>
       
       <div className="w-full flex flex-col items-center lg:gap-y-8">

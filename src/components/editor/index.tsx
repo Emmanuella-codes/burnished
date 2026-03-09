@@ -25,6 +25,20 @@ export default function ResumeEditor() {
     hydrateResumeStore();
   }, [])
 
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const tokenCookie = document.cookie
+      .split("; ")
+      .find((cookie) => cookie.startsWith("token="))
+      ?.split("=")[1];
+    const localToken = localStorage.getItem("burned_token");
+
+    if (!tokenCookie && !localToken) {
+      router.replace("/");
+    }
+  }, [router]);
+
   return (
     <div className="w-full flex flex-col lg:items-center justify-center">
       <div className="flex flex-col px-3">

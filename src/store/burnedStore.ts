@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Mode } from "@/server/session.server";
 import { proxy, subscribe } from "valtio";
 
@@ -6,6 +7,8 @@ export interface BurnedState {
   file: File | null;
   jobDesc: string;
   isLoading: boolean;
+  quotaReached: boolean;
+  quotaResetAt: number | null;
   result: {
     mode: Mode;
     content: string | Record<string, any>;
@@ -18,6 +21,8 @@ export const burnedStore = proxy<BurnedState>({
   file: null,
   jobDesc: "",
   isLoading: false,
+  quotaReached: false,
+  quotaResetAt: null,
   result: null,
   _hydrated: false,
 });
@@ -64,11 +69,15 @@ export const burnedActions = {
   setFile: (file: File | null) => (burnedStore.file = file),
   setJobDesc: (desc: string) => (burnedStore.jobDesc = desc),
   setLoading: (state: boolean) => (burnedStore.isLoading = state),
+  setQuotaReached: (state: boolean) => (burnedStore.quotaReached = state),
+  setQuotaResetAt: (timestamp: number | null) => (burnedStore.quotaResetAt = timestamp),
   setResult: (result: BurnedState["result"]) => (burnedStore.result = result),
   reset: () => {
     burnedStore.file = null;
     burnedStore.jobDesc = "";
     burnedStore.isLoading = false;
+    burnedStore.quotaReached = false;
+    burnedStore.quotaResetAt = null;
     burnedStore.result = null;
   },
 };
