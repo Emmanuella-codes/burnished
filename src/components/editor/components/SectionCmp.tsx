@@ -1,6 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { motion, AnimatePresence } from "framer-motion";
-// import { useState } from "react";
 
 type SectionProps = {
   title: string;
@@ -23,7 +23,7 @@ export function Section({
   // const toggleExpand = () => setIsExpanded((prev) => !prev);
   
   return (
-    <div className="bg-white rounded-md shadow-sm overflow-hidden">
+    <div className="bg-[#001e2e] rounded-md shadow-sm overflow-hidden">
       <div className="flex items-center justify-between p-4">
         <div className="flex items-center gap-x-2">
           {!locked && (
