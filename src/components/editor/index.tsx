@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { useSnapshot } from "valtio";
 import { hydrateResumeStore, resumeStore } from "@/store/resumeStore";
