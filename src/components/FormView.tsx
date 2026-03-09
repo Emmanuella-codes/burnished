@@ -10,6 +10,21 @@ import { burnedActions, burnedStore } from "@/store/burnedStore";
 import { hydrateResumeStore, resumeStore } from "@/store/resumeStore";
 import { useRouter } from "next/navigation";
 
+const QUOTA_RESET_KEY = "burned_quota_reset_at";
+
+const getNextUtcMidnightTimestamp = () => {
+  const now = new Date();
+  return Date.UTC(
+    now.getUTCFullYear(),
+    now.getUTCMonth(),
+    now.getUTCDate() + 1,
+    0,
+    0,
+    0,
+    0
+  );
+};
+
 export default function FormView() {
   const router = useRouter()
   const snap = useSnapshot(burnedStore);
@@ -59,6 +74,9 @@ export default function FormView() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (snap.quotaReached) {
+      return;
+    }
     if (!selectedFile) {
       toast({
         title: "Error",
@@ -72,6 +90,20 @@ export default function FormView() {
     try {
       const data = await uploadCV(selectedFile, snap.activeTab, snap.jobDesc);
       handleApiResponse(data, (payload) => {
+        const dailyRemaining = payload?.quota?.dailyRemaining;
+        if (typeof dailyRemaining === "number") {
+          if (dailyRemaining === 0) {
+            const resetAt = getNextUtcMidnightTimestamp();
+            burnedActions.setQuotaReached(true);
+            burnedActions.setQuotaResetAt(resetAt);
+            localStorage.setItem(QUOTA_RESET_KEY, String(resetAt));
+          } else {
+            burnedActions.setQuotaReached(false);
+            burnedActions.setQuotaResetAt(null);
+            localStorage.removeItem(QUOTA_RESET_KEY);
+          }
+        }
+
         let content: any; 
 
         if (snap.activeTab === "format") {
@@ -165,9 +197,11 @@ export default function FormView() {
                   </div>
                 )}
 
-                <Button type="submit" className="w-[140px] bg-[#CF1259]" disabled={snap.isLoading}>
+                <Button type="submit" className="w-[140px] bg-[#CF1259]" disabled={snap.isLoading || snap.quotaReached}>
                   {snap.isLoading
                     ? "Processing..."
+                    : snap.quotaReached
+                    ? "Daily limit reached"
                     : snap.activeTab === "roast"
                     ? "Roast CV"
                     : snap.activeTab === "format"

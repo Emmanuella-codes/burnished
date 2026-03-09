@@ -32,4 +32,7 @@ export interface UploadResponse  {
   coverLetter: string;
   feedback?: string;     
   error?: string;
+  quota?: {
+    dailyRemaining: number;
+  };
 }
