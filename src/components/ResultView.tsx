@@ -2,6 +2,8 @@
 import { burnedStore } from "@/store/burnedStore";
 import { useSnapshot } from "valtio";
 import ReactMarkdown from "react-markdown";
+import { Download } from "lucide-react";
+import { downloadPdfFile, downloadTextFile } from "@/utils/downloadFile";
 // import { useEffect } from "react";
 
 export default function ResultView() {
@@ -21,11 +23,36 @@ export default function ResultView() {
     );
   }
 
-  const { content } = snap.result;
-  if (typeof content !== "string") return
+  const { content, mode } = snap.result;
+  if (typeof content !== "string") return null;
+
+  const fileExtension = mode === "letter" ? ".pdf" : mode === "roast" ? ".txt" : null;
+
+  const handleDownload = () => {
+    if (mode === "roast") {
+      downloadTextFile(content);
+      return;
+    }
+
+    if (mode === "letter") {
+      downloadPdfFile(content);
+    }
+  };
 
   return (
     <div className="border-2 border-dashed border-indigo-300 p-4 w-full">
+      {fileExtension && (
+        <div className="mb-4 flex justify-end">
+          <button
+            type="button"
+            onClick={handleDownload}
+            className="inline-flex items-center gap-2 rounded-md border border-slate-300 px-3 py-1.5 text-sm hover:bg-slate-50"
+          >
+            <Download size={16} />
+            <span>{fileExtension}</span>
+          </button>
+        </div>
+      )}
       <ReactMarkdown>{content}</ReactMarkdown>
     </div>
   );
