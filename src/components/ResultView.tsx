@@ -40,20 +40,23 @@ export default function ResultView() {
   };
 
   return (
-    <div className="border-2 border-dashed border-indigo-300 p-4 w-full">
+    <div className="">
       {fileExtension && (
         <div className="mb-4 flex justify-end">
           <button
             type="button"
             onClick={handleDownload}
-            className="inline-flex items-center gap-2 rounded-md border border-slate-300 px-3 py-1.5 text-sm hover:bg-slate-50"
+            className="inline-flex items-center gap-2 rounded-md border border-slate-300 px-3 py-1.5 text-sm"
           >
             <Download size={16} />
             <span>{fileExtension}</span>
           </button>
         </div>
       )}
-      <ReactMarkdown>{content}</ReactMarkdown>
+      <div className="border-2 border-dashed border-indigo-300 p-4 w-full">
+        <ReactMarkdown>{content}</ReactMarkdown>
+      </div>
     </div>
+    
   );
 }

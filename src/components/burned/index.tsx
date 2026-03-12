@@ -104,7 +104,7 @@ export default function BurnedCmp() {
           {snap.quotaReached && (
             <div className="w-full flex justify-end mt-1">
               <p className="text-xs text-slate-600">
-                Daily limit reached. Unlocks in {timerText} (UTC).
+                Daily limit reached. Unlocks in {timerText}.
               </p>
             </div>
           )}
