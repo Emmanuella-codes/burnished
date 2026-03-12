@@ -12,17 +12,11 @@ import { useRouter } from "next/navigation";
 
 const QUOTA_RESET_KEY = "burned_quota_reset_at";
 
-const getNextUtcMidnightTimestamp = () => {
+const getNextLocalMidnightTimestamp = () => {
   const now = new Date();
-  return Date.UTC(
-    now.getUTCFullYear(),
-    now.getUTCMonth(),
-    now.getUTCDate() + 1,
-    0,
-    0,
-    0,
-    0
-  );
+  const nextMidnight = new Date(now);
+  nextMidnight.setHours(24, 0, 0, 0);
+  return nextMidnight.getTime();
 };
 
 export default function FormView() {
@@ -93,7 +87,7 @@ export default function FormView() {
         const dailyRemaining = payload?.quota?.dailyRemaining;
         if (typeof dailyRemaining === "number") {
           if (dailyRemaining === 0) {
-            const resetAt = getNextUtcMidnightTimestamp();
+            const resetAt = getNextLocalMidnightTimestamp();
             burnedActions.setQuotaReached(true);
             burnedActions.setQuotaResetAt(resetAt);
             localStorage.setItem(QUOTA_RESET_KEY, String(resetAt));
@@ -174,7 +168,7 @@ export default function FormView() {
                     <label htmlFor="cv-upload" className="cursor-pointer w-full">
                       <div className="flex flex-col w-full items-center py-5">
                         <span className="text-5xl">📄</span>
-                        <strong className="text-sm">Click to upload</strong>
+                        <strong className="text-sm">{selectedFile ? "Replace CV" : "Click to upload"}</strong>
                         <span className="text-sm">Accepted formats: PDF, DOCX</span>
                       </div>
                     </label>
