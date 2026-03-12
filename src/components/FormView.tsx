@@ -168,7 +168,7 @@ export default function FormView() {
                     <label htmlFor="cv-upload" className="cursor-pointer w-full">
                       <div className="flex flex-col w-full items-center py-5">
                         <span className="text-5xl">📄</span>
-                        <strong className="text-sm">Click to upload</strong>
+                        <strong className="text-sm">{selectedFile ? "Replace CV" : "Click to upload"}</strong>
                         <span className="text-sm">Accepted formats: PDF, DOCX</span>
                       </div>
                     </label>
